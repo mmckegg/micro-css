@@ -1,0 +1,23 @@
+.Document { 
+  background-color: silver; 
+  color: gray; 
+} 
+.Document.-main { 
+  padding: 30px; 
+} 
+.Document.-main > heading { 
+  border-bottom: 1px solid gray; 
+  background-color: silver; 
+} 
+
+.Document.-main > heading > h1 { 
+  color: black; 
+} 
+
+.Cat { 
+  color: black; 
+} 
+
+.\$car { 
+  background-image: url('car.png'); 
+} 

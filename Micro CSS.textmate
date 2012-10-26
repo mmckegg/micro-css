@@ -1,0 +1,45 @@
+{	scopeName = 'source.mcss';
+	comment = '';
+	fileTypes = ( 'mcss' );
+	foldingStartMarker = '\{\s*$';
+	foldingStopMarker = '^\s*\}';
+	patterns = (
+
+		{	match = '([A-Z][A-Za-z\.]+)( )?{';
+			captures = { 1 = { name = 'variable.mcss'; }; };
+		},
+		{	match = '(\-[a-z][A-Za-z]+)( )?{';
+			captures = { 1 = { name = 'support.mcss'; }; };
+		},
+		{	match = '(\$[a-z][A-Za-z]+)( )?{';
+			captures = { 1 = { name = 'string.mcss'; }; };
+		},
+		{	match = '([a-z,1-6 ]+[a-z1-6])( )?{';
+			captures = {
+				1 = { name = 'storage.mcss'; };
+			};
+		},
+		{	match = '([a-z1-6]+)(\.[a-zA-Z]+)?( )?{';
+			captures = {
+				1 = { name = 'storage.mcss'; };
+				2 = { name = 'support.mcss'; };
+			};
+		},
+		{	begin = '([a-zA-Z\-]+)(:)';
+		    end = '(;)|\n';
+			captures = {
+				1 = { name = 'keyword.mcss'; };
+				2 = { name = 'keyword.operator.mcss'; };
+			};
+			patterns = (
+			    {   match = "('.+')";
+			        name = 'string.mcss';
+			    },
+			    {   match = "[a-zA-Z]+\(|\)";
+			        name = 'storage.mcss';
+			    },
+			);
+			name = 'constant.mcss';
+		},
+	);
+}
