@@ -50,8 +50,8 @@ Here's some HTML we want to style:
 ```
 
 And some MCSS to do the styling:
-```scss
 
+```scss
   Sidebar {
     header {
       font-weight: bold
@@ -89,7 +89,6 @@ And some MCSS to do the styling:
   Comment {
     
   }
-  
 ```
 
 ## It's almost a schema for your HTML
@@ -120,13 +119,16 @@ Because semicolons always annoyed me...
 ### Object classes start with uppercase
 
 The following MCSS:
+
 ```scss
 Item {
   border: 1px solid gray;
   background: silver;
 }
 ```
+
 Becomes:
+
 ```css
 .Item {
   border: 1px solid gray;
@@ -150,7 +152,9 @@ Item {
   }
 }
 ```
+
 Becomes:
+
 ```css
 .Item > h1 {
   font-weight: normal
@@ -159,6 +163,7 @@ Becomes:
   margin: 4px 0px
 }
 ```
+
 Makes it not so IE6 friendly, but it's so worth it (then again IE6 doesn't even support multiple classes!)
 
 TODO: Should probably allow a way of disabling the `>` selector in certain situations... e.g. formatting `strong`, nested `ul` etc.
@@ -176,7 +181,9 @@ AnotherItem {
   color: black
 }
 ```
+
 Becomes:
+
 ```css
 .Item {
   color: black;
@@ -217,7 +224,9 @@ h1, h2, h3, h4 {
   font-weight: normal
 }
 ```
+
 Becomes:
+
 ```css
 .Item.-unknown {
   color: gray;
@@ -297,7 +306,9 @@ $fancyThing {
   }
 }
 ```
+
 Becomes:
+
 ```css
 .\$fancyThing {
   box-shadow: 10px 10px silver;
@@ -308,6 +319,7 @@ Becomes:
 ```
 
 And we can use it in our HTML like this:
+
 ```html
 <div>
   <div class='Item'>
@@ -337,7 +349,9 @@ Item {
   }
 }
 ```
+
 Becomes
+
 ```css
 .Item {
   color: black;
@@ -351,6 +365,7 @@ Becomes
 ```
 
 And we can use it like this in our HTML:
+
 ```html
 <div class='Item'>
   <div class='.main'>
