@@ -95,6 +95,12 @@ And some MCSS to do the styling:
 
 You'll notice that MCSS provides an easy way to view an overall structure of your page. In fact I almost always write the MCSS first to figure out how the page will be laid out then write the HTML to match.
 
+## Installation
+
+```shell
+$ npm install micro-css -g
+```
+
 ## Usage
 
 When installed globally execute:
