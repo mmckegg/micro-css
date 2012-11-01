@@ -53,6 +53,42 @@ test("mixin with rules", function(t){
   
 })
 
+test("mixin to another rule", function(t){
+  
+  var mcss = (
+    "$noticeMe { " + 
+      "-fancy { " + 
+        "background: green \n" + 
+        "div.stuff { color: white } " + 
+      "} " + 
+      "color: green " +
+    "}" +
+    "Item { " +
+      "$noticeMe \n" +
+      "border: solid gray 1px \n" +
+      "div { " +
+        "color: gray " +
+      "}" +
+    "}"
+  )
+  
+  var expected = (
+    ".Item { color: green; } " +
+    ".Item.-fancy { background: green; } " +
+    ".Item.-fancy > div.\\.stuff { color: white; } " + 
+    ".Item { border: solid gray 1px; } " + 
+    ".Item > div { color: gray; } " + 
+    ".\\$noticeMe { color: green; } " +
+    ".\\$noticeMe.-fancy { background: green; } " + 
+    ".\\$noticeMe.-fancy > div.\\.stuff { color: white; } "
+  )
+  
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+  
+})
+
 test("mixin with flags and inner rules", function(t){
   
   var mcss = ("$noticeMe { -fancy { background: green \n div.stuff { color: white } } }")

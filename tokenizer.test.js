@@ -77,9 +77,22 @@ test("mixin with rules", function(t){
   t.end()
 })
 
-test("mixin with flags and inner rule", function(t){
+test("mixin to another rule", function(t){
   
-  var tokens = tokenizer("$noticeMe { -fancy { background: green \n div.stuff { color: white } } }")
+  var tokens = tokenizer(
+    "$noticeMe { " + 
+      "-fancy { " + 
+        "background: green \n" + 
+        "div.stuff { color: white } " + 
+      "} " + 
+    "}" +
+    "Item { " +
+      "$noticeMe \n" +
+      "div { " +
+        "color: gray " +
+      "}" +
+    "}"
+  )
   
   t.deepEquals({
     mixins: {
@@ -99,8 +112,60 @@ test("mixin with flags and inner rule", function(t){
           }
         }
       }
+    },
+    objects: {
+      'Item': {
+        extensions: ['$noticeMe'],
+        elements: {
+          'div': {
+            rules: {
+              'color': 'gray'
+            }
+          }
+        }
+      }
     }
   }, tokens)
+  
+  t.end()
+})
+
+test("mixin extending element with no rules", function(t){
+  var tokens = tokenizer("div { $mixin }")
+  t.deepEquals(tokens, {
+    elements: {
+      'div': {
+        extensions: ['$mixin']
+      }
+    }
+  })
+  t.end()
+})
+
+test("mixin with flags and inner rule", function(t){
+  
+  var tokens = tokenizer("$noticeMe { -fancy { background: green \n div.stuff { color: white } } }")
+  
+  t.deepEquals(tokens, {
+    mixins: {
+      '$noticeMe': {
+        flags: {
+          '-fancy': {
+            rules: {
+              'background': 'green'
+            },
+            elements: {
+              'div.stuff': {
+                rules: {
+                  'color': 'white'
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  })
   
   t.end()
 })

@@ -96,7 +96,7 @@ function eachToken(text, each, context){
   function captureName(){
     currentName = text.slice(capture.start, capture.end+1).trim()
   }
-  
+    
   for (var i=0;i<text.length;i++){
     var char = text.charAt(i)
     
@@ -123,12 +123,29 @@ function eachToken(text, each, context){
         mode = 'search'
         currentName = null
         
+      } else if(char === '\n' || char === ';'){
+        captureName()
+        if (isMixin(currentName)){
+          context.extensions = context.extensions || []
+          setAdd(context.extensions, currentName)
+        }
+        mode = 'search'
+        currentName = null
+        
       } else {
         capture.end = i
       }
     }
     
-    
+  }
+  
+  // clean up any dangling names
+  if (mode === 'name'){
+    captureName()
+    if (isMixin(currentName)){
+      context.extensions = context.extensions || []
+      setAdd(context.extensions, currentName)
+    }
   }
 }
 
@@ -162,4 +179,10 @@ function closePosition(text, start){
     }
   }
   
+}
+
+function setAdd(array, item){
+  if (array.indexOf(item) < 0){
+    array.push(item)
+  }
 }

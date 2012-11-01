@@ -28,14 +28,13 @@ function getRules(style, root, prepend){
   
   var result = ""
   
+
+  
   if (style.objects){
     
     eachGroup(style.objects, function(name, innerStyle){
       var selector = getSelector(name)
-      if (innerStyle.rules){
-        result += getCssBlock(selector, innerStyle.rules)
-      }
-      result += getRules(innerStyle, root, selector)
+      result += getCssForSelector(selector, innerStyle, root)
     })
     
   }
@@ -45,10 +44,7 @@ function getRules(style, root, prepend){
     eachGroup(style.flags, function(name, innerStyle){
       name.split(',').forEach(function(n){
         var selector = getSelector(n.trim(), prepend)
-        if (innerStyle.rules){
-          result += getCssBlock(selector, innerStyle.rules)
-        }
-        result += getRules(innerStyle, root, selector)
+        result += getCssForSelector(selector, innerStyle, root)
       })
       
     })
@@ -60,10 +56,7 @@ function getRules(style, root, prepend){
     eachGroup(style.pseudos, function(name, innerStyle){
       name.split(',').forEach(function(n){
         var selector = getPseudoSelector(n.trim(), prepend)
-        if (innerStyle.rules){
-          result += getCssBlock(selector, innerStyle.rules)
-        }
-        result += getRules(innerStyle, root, selector)
+        result += getCssForSelector(selector, innerStyle, root)
       })
       
     })
@@ -85,12 +78,8 @@ function getRules(style, root, prepend){
         subItems += getRules(innerStyle, root, selector)
         selectors.push(selector)
       })
-      
-      if (innerStyle.rules){
-        result += getCssBlock(selectors.join(', '), innerStyle.rules)
-      }
-      result += subItems
-      
+            
+      result += getCssForSelector(selectors.join(', '), innerStyle, root, subItems)      
       
     })
 
@@ -98,6 +87,37 @@ function getRules(style, root, prepend){
   
   return result
   
+}
+
+function getCssForSelector(selector, innerStyle, root, overrideSubItems){
+  var result = ""
+  if (innerStyle.extensions){
+    result += getExtensions(selector, innerStyle.extensions, root)
+  }
+  if (innerStyle.rules){
+    result += getCssBlock(selector, innerStyle.rules)
+  }
+  if (overrideSubItems == null){
+    result += getRules(innerStyle, root, selector)
+  } else {
+    result += overrideSubItems
+  }
+  return result
+}
+
+function getExtensions(selector, extensions, root){
+  // TODO: should find a way that allows extensions to be grouped together with the original mixin - that way no duplication of rules
+  // handle extensions
+  var result = ""
+  if (extensions){
+    extensions.forEach(function(extension){
+      if (root.mixins && root.mixins[extension]){
+        var innerStyle = root.mixins[extension]
+        result += getCssForSelector(selector, innerStyle, root)
+      }
+    })
+  }
+  return result
 }
 
 function getCssBlock(selector, rules, root){
