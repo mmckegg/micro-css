@@ -302,7 +302,7 @@ Becomes:
 
 ### Mixins for reusing a particular style... when Object classes aren't enough
 
-Basically an alternative to Object classes, but suit some sorts of applications better. Mostly a syntactic thing. 
+A way to reuse styles in multiple places.
 
 ```scss
 $fancyThing {
@@ -311,34 +311,31 @@ $fancyThing {
     font-size: 90%
   }
 }
+
+Item {
+  $fancyThing
+  
+  border: solid 1px gray
+  background-color: fuchsia
+}
 ```
 
 Becomes:
 
 ```css
-.\$fancyThing {
+.Item {
+  border: solid 1px gray
+  background-color: fuchsia
+}
+.\$fancyThing, .Item {
   box-shadow: 10px 10px silver;
 }
-.\$fancyThing > div {
+.\$fancyThing > div, .Item > div {
   font-size: 90%;
 }
 ```
 
-And we can use it in our HTML like this:
-
-```html
-<div>
-  <div class='Item'>
-    <div class='AnotherObject $fancyThing'>
-      This element will be styled using AnotherObject and also extended with $fancyThing
-    </div>
-  </div>
-  <div class='$fancyThing'>
-  </div>
-</div>
-```
-
-Eventually you will be able to use them more like variables in the actual MCSS code as well (as an actual mixin).
+So we can also use the $mixin directly as well if we like.
 
 ### Element classes - basically how most people currently use classes
 
