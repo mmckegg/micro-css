@@ -33,10 +33,14 @@ function rootHandler(token, target){
 function objectHandler(token, target){
   if (!defineRule(token, target)){
     
+    var deep = isDeep(token.group)
+    if (deep){
+      token.group = token.group.slice(1, -1)
+    }
+    
     if (isPseudo(token.group)){
       var styles = define('pseudos', token.group, target)
       eachToken(token.inner, objectHandler, styles)
-      
     }else if (isElement(token.group)){
       var styles = define('elements', token.group, target)
       eachToken(token.inner, objectHandler, styles)
@@ -45,6 +49,10 @@ function objectHandler(token, target){
       eachToken(token.inner, objectHandler, styles)
     }
     
+    if (styles && deep){
+      styles.deep = true
+    }
+        
   }
 }
 
@@ -64,6 +72,10 @@ function defineRule(token, target){
   }
 }
 
+function isDeep(name){
+  return name && name.charAt(0) == '(' && name.charAt(name.length-1) == ')'
+}
+
 function isFlag(name){
   return name && name.charAt(0) == '-'
 }
@@ -81,7 +93,8 @@ function isElement(name){
 }
 
 function isPseudo(name){
-  return name && name.charAt(0) == ':'
+  // includes attribute selectors
+  return name && (name.charAt(0) == ':' || name.charAt(0) == '[' && name.charAt(name.length-1) == ']')
 }
 
 function isMixin(name){

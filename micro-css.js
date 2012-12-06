@@ -73,7 +73,7 @@ function getRules(style, root, prepend){
       name.split(',').forEach(function(n){
       
         var parts = n.trim().split('.')
-        var selector = getElementSelector(parts[0], parts[1], prepend)
+        var selector = getElementSelector(parts[0], parts[1], prepend, innerStyle.deep)
 
         subItems += getRules(innerStyle, root, selector)
         selectors.push(selector)
@@ -155,7 +155,7 @@ function getPseudoSelector(name, prepend){
   return selector  
 }
 
-function getElementSelector(name, filter, prepend){
+function getElementSelector(name, filter, prepend, isDeep){
   var selector = escapeClass(name)
   
   if (filter){
@@ -163,7 +163,11 @@ function getElementSelector(name, filter, prepend){
   }
   
   if (prepend){
-    selector = prepend + ' > ' + selector
+    if (isDeep){
+      selector = prepend + ' ' + selector
+    } else {
+      selector = prepend + ' > ' + selector
+    }
   }
   
   return selector

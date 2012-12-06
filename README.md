@@ -172,7 +172,25 @@ Becomes:
 
 Makes it not so IE6 friendly, but it's so worth it (then again IE6 doesn't even support multiple classes!)
 
-TODO: Should probably allow a way of disabling the `>` selector in certain situations... e.g. formatting `strong`, nested `ul` etc.
+### If you really have to, you can still opt-out of '>'
+
+```scss
+Item {
+  (strong) {
+    font-weight: bold
+    color: #333
+  }
+}
+```
+
+Becomes:
+
+```css
+.Item strong {
+  font-weight: bold;
+  color: #333;
+}
+```
 
 ### Add flags to specific types of objects
 

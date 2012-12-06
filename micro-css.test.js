@@ -191,6 +191,41 @@ test("object with filtered elements", function(t){
   t.end()
 })
 
+test("object with deep element", function(t){
+  
+  var mcss = (
+    "Document {\n" +  
+    "  (strong) {\n" + 
+    "    font-weight: bold\n" + 
+    "    color: blue\n" + 
+    "  }\n" + 
+    "}"
+  )
+  
+  var expected = ".Document strong { font-weight: bold; color: blue; } "
+    
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})
+
+test("element with attribute match", function(t){
+  
+  var mcss = (
+    "div {\n" +  
+    "  [contenteditable] {\n" + 
+    "    outline: dotted 1px silver\n" + 
+    "  }\n" + 
+    "}"
+  )
+  
+  var expected = "div[contenteditable] { outline: dotted 1px silver; } "
+
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})
+
 test("object with multi flags", function(t){
   
   var mcss = (

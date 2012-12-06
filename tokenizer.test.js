@@ -205,6 +205,63 @@ test("object with flags", function(t){
   t.end()
 })
 
+test("object with deep element", function(t){
+  
+  var tokens = tokenizer(
+    "Document {\n" +  
+    "  (strong) {\n" + 
+    "    font-weight: bold\n" + 
+    "    color: blue\n" + 
+    "  }\n" + 
+    "}"
+  )
+    
+  t.deepEquals({
+    objects: {
+      'Document': {
+        elements: {
+          'strong': {
+            deep: true,
+            rules: {
+              'font-weight': 'bold',
+              'color': 'blue'
+            }
+          }
+        }
+      }
+    }
+  }, tokens)
+  
+  t.end()
+})
+
+test("element with attribute match", function(t){
+  
+  var tokens = tokenizer(
+    "div {\n" +  
+    "  [contenteditable] {\n" + 
+    "    outline: dotted 1px silver\n" + 
+    "  }\n" + 
+    "}"
+  )
+    
+  t.deepEquals({
+    elements: {
+      'div': {
+        pseudos: {
+          '[contenteditable]': {
+            rules: {
+              'outline': 'dotted 1px silver'
+            }
+          }
+        }
+      }
+    }
+  }, tokens)
+  
+  t.end()
+})
+
 test("object with flags and nested elements", function(t){
   
   var tokens = tokenizer(
