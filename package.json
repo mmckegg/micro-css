@@ -10,6 +10,15 @@
   "bin" : {
     "mcss" : "bin/mcss.js"
   },
+  "keywords": [
+    "css",
+    "preprocessor",
+    "mcss",
+    "less",
+    "stylesheet",
+    "styling",
+    "parser"
+  ],
   "main": "micro-css.js",
   "scripts": {
     "test": "tap *.test.js"
