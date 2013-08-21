@@ -417,3 +417,24 @@ test("object with multi flags", function(t){
   
   t.end()
 })
+
+test("wildcard root", function(t){
+  
+  var tokens = tokenizer(
+    "* {\n" +  
+    "  box-sizing: border-box\n" + 
+    "}"
+  )
+    
+  t.deepEquals(tokens, {
+    elements: {
+      '*': {
+        rules: {
+          'box-sizing': 'border-box'
+        }
+      }
+    }
+  })
+  
+  t.end()
+})

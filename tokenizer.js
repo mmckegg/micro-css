@@ -89,7 +89,7 @@ function isFilteredElement(name){
 }
 
 function isElement(name){
-  return name && name.charAt(0) != name.charAt(0).toUpperCase()
+  return name && (name.charAt(0) != name.charAt(0).toUpperCase() || name.charAt(0) === '*')
 }
 
 function isPseudo(name){
