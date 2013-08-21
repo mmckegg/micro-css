@@ -2,13 +2,13 @@
   "author": "Matt McKegg <matt@wetsand.co.nz> (https://twitter.com/MattMcKegg)",
   "name": "micro-css",
   "description": "A CSS preprocessor that provides a simplified object orientated approach to css. The syntax is very similar to CSS but encourages better reuse of classes and discourages high specificity.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/mmckegg/micro-css.git"
   },
-  "bin" : {
-    "mcss" : "bin/mcss.js"
+  "bin": {
+    "mcss": "bin/mcss.js"
   },
   "keywords": [
     "css",
