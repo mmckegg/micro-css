@@ -32,6 +32,17 @@ test("element with pseudo class", function(t){
   t.end()
 })
 
+test("element with multi pseudo class", function(t){
+  
+  var mcss = ("a {\n  :before, :after {\n    content: '-'\n  }\n}")
+  var expected = "a:before { content: '-'; } a:after { content: '-'; } "
+  
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})
+
+
 test("root multi element with rules", function(t){
   
   var mcss = ("h1, h2, h3, h4, h5, h6 {\n  margin-bottom: 10px }")
