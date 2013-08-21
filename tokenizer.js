@@ -111,6 +111,7 @@ function eachToken(text, each, context){
   }
     
   for (var i=0;i<text.length;i++){
+    var prevChar = text.charAt(i-1)
     var char = text.charAt(i)
     
     if (mode == 'search'){
@@ -121,7 +122,7 @@ function eachToken(text, each, context){
     }
     
     if (mode == 'name'){
-      if (capture.end > capture.start && (char == ':' || char == '{')){
+      if (capture.end > capture.start && ((char == ':' && prevChar != ' ') || char == '{')){
         captureName()
         var start = i+1
         

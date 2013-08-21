@@ -59,6 +59,27 @@ test("element with pseudo class", function(t){
   t.end()
 })
 
+test("element with multiple pseudo classes", function(t){
+  
+  var tokens = tokenizer("a {\n  :before, :after {\n    content: '-'\n  }\n}")
+  
+  t.deepEquals(tokens, {
+    elements: {
+      'a': {
+        pseudos: {
+          ':before, :after': {
+            rules: {
+              'content': "'-'"
+            }
+          }
+        }
+      }
+    }
+  })
+  
+  t.end()
+})
+
 test("mixin with rules", function(t){
   
   var tokens = tokenizer("$noticeMe {\n  background-color: fuchsia\n  color:lime\n }")
