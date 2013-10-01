@@ -426,19 +426,9 @@ Item {
 Becomes
 
 ```css
-@svg test {
-  width: 20px
-  height: 20px
-  content: "<path d='M0,0 L20,20' />"
-
-  path {
-    stroke: #CCC
-    stroke-width: 3
-    fill: none
-  }
-}
-
 Item {
-  background-image: svg(test)
+  background-image: url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bW...)
 }
 ```
+
+The svg is automatically inlined as a data url.
