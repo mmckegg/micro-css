@@ -459,3 +459,39 @@ test("wildcard root", function(t){
   
   t.end()
 })
+
+
+test("svg entity", function(t){
+  
+  var tokens = tokenizer(
+    "@svg test {\n" +  
+    "  content: '<ellipse/>'\n" +
+    "  width: 16px\n" +
+    "  height: 16px \n" +
+    "  ellipse { \n" +
+    "    fill: green  \n " +
+    "  } \n" +
+    "}"
+  )
+    
+  t.deepEquals({
+    entities: {
+      '@svg test': {
+        rules: {
+          'width': '16px',
+          'height': '16px',
+          'content': "'<ellipse/>'"
+        },
+        elements: {
+          'ellipse': {
+            rules: {
+              'fill': 'green'
+            }
+          }
+        }
+      }
+    }
+  }, tokens)
+  
+  t.end()
+})

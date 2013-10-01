@@ -403,3 +403,42 @@ And we can use it like this in our HTML:
 
 They can only be used with an element selector, and never on their own. And generally should be avoided if they have a better pure element alternative. 
 
+### Inline SVG
+
+```scss
+@svg test {
+  width: 20px
+  height: 20px
+  content: "<path d='M0,0 L20,20' />"
+
+  path {
+    stroke: #CCC
+    stroke-width: 3
+    fill: none
+  }
+}
+
+Item {
+  background-image: svg(test)
+}
+```
+
+Becomes
+
+```css
+@svg test {
+  width: 20px
+  height: 20px
+  content: "<path d='M0,0 L20,20' />"
+
+  path {
+    stroke: #CCC
+    stroke-width: 3
+    fill: none
+  }
+}
+
+Item {
+  background-image: svg(test)
+}
+```

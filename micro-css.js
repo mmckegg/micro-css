@@ -11,7 +11,7 @@ module.exports = function(text){
    eachGroup(style.mixins, function(name, innerStyle){
      var selector = getSelector(name)
      if (innerStyle.rules){
-       result += getCssBlock(selector, innerStyle.rules)
+       result += getCssBlock(selector, innerStyle.rules, style)
      }
      result += getRules(innerStyle, root, selector)
    })
@@ -95,7 +95,7 @@ function getCssForSelector(selector, innerStyle, root, overrideSubItems){
     result += getExtensions(selector, innerStyle.extensions, root)
   }
   if (innerStyle.rules){
-    result += getCssBlock(selector, innerStyle.rules)
+    result += getCssBlock(selector, innerStyle.rules, root)
   }
   if (overrideSubItems == null){
     result += getRules(innerStyle, root, selector)
@@ -123,9 +123,57 @@ function getExtensions(selector, extensions, root){
 function getCssBlock(selector, rules, root){
   var result = selector + " { "
   eachGroup(rules, function(name, value){
-    result += name + ': ' + value + '; ' 
+    result += name + ': ' + handleValue(value, root) + '; ' 
   })
   return result + '} '
+}
+
+function handleValue(value, root){
+  return value.replace(/(\W|^)(svg)\((.+)\)(\W|$)/g, function(match, prefix, type, name, suffix){
+    if (type == 'svg'){
+      var url = getSvgDataUrl(name, root)
+      return prefix + 'url("' + url + '")' + suffix
+    } else {
+      return ' '
+    }
+  })
+}
+
+function getSvgDataUrl(name, root){
+  var parts = name.split(' ')
+  var style = root.entities && root.entities['@svg ' + parts[0]]
+  if (style){
+
+    var innerStyles = getRules(style, root)
+    var svg = getSvgBlock(style.rules, innerStyles, parts.slice(1))
+
+    var encoded = new Buffer(svg).toString('base64')
+    return 'data:image/svg+xml;charset=utf-8;base64,' + encoded
+  }
+}
+
+function getSvgBlock(attributes, styles, classes){
+  var result = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1"'
+  var content = ''
+  Object.keys(attributes).forEach(function(name){
+    if (name == 'content'){
+      content = attributes[name].replace(/^["' ]+|["' ]+$/g, '')
+    } else {
+      result += ' ' + name + '="' + attributes[name] + '"'
+    }
+  })
+
+  if (classes && classes.length){
+    result += ' class="' + classes.join(' ') + '"' 
+  }
+
+  result += '>'
+
+  result += '<defs><style type="text/css"><![CDATA[' + styles + ']]></style></defs>'
+  result += content
+  result += '</svg>'
+
+  return result
 }
 
 

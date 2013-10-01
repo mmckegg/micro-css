@@ -27,6 +27,11 @@ function rootHandler(token, target){
     var styles = define('mixins', token.group, target)
     eachToken(token.inner, objectHandler, styles)
   }
+
+  if (isEntity(token.group)){
+    var styles = define('entities', token.group, target)
+    eachToken(token.inner, objectHandler, styles)
+  }
   
 }
 
@@ -101,6 +106,10 @@ function isMixin(name){
   return name && name.charAt(0) == '$'
 }
 
+function isEntity(name){
+  return name && name.charAt(0) == '@'
+}
+
 function eachToken(text, each, context){
   var mode = 'search' // name
   var capture = {start:0,end:0}
@@ -168,9 +177,18 @@ function isNameChar(char){
 }
 
 function endPosition(text, start){
+  var inParans = false
   for (var i=start;i<text.length;i++){
     var char = text.charAt(i)
-    if (char == ';' || char == "\n"){
+
+    // dirty hack for dealing with semicolons in data-urls
+    if (char == '('){
+      inParans = true
+    } else if (char == ')'){
+      inParans = false
+    }
+
+    if ((char == ';' && !inParans) || char == "\n"){
       return i
     }
   }

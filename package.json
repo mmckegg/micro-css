@@ -17,7 +17,8 @@
     "less",
     "stylesheet",
     "styling",
-    "parser"
+    "parser",
+    "svg"
   ],
   "main": "micro-css.js",
   "scripts": {

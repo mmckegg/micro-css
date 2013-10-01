@@ -253,3 +253,34 @@ test("object with multi flags", function(t){
   
   t.end()
 })
+
+test("test inline svg", function(t){
+  
+  var mcss = (
+    "@svg test {\n" +  
+    "  content: '<ellipse/>'\n" +
+    "  width: 16px\n" +
+    "  height: 16px \n" +
+    "  ellipse { \n" +
+    "    fill: green  \n " +
+    "  } \n" +
+    "  -sub { \n" + 
+    "    ellipse {\n" +
+    "      fill: blue \n" +
+    "    }\n" +
+    "  }\n" +
+    "} \n" +
+    "body {\n" +
+    "  background: svg(test) no-repeat left \n" +
+    "}\n" +
+    "div {\n" +
+    "  background: svg(test -sub) \n" +
+    "}"
+  )
+  
+  var expected = 'body { background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsuLXN1YiA+IGVsbGlwc2UgeyBmaWxsOiBibHVlOyB9IGVsbGlwc2UgeyBmaWxsOiBncmVlbjsgfSBdXT48L3N0eWxlPjwvZGVmcz48ZWxsaXBzZS8+PC9zdmc+") } div { background: url("data:image/svg+xml") } '
+    
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})
