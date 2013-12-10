@@ -460,6 +460,31 @@ test("wildcard root", function(t){
   t.end()
 })
 
+test("pseudos elements", function(t){
+  var tokens = tokenizer(
+    "Document {\n" +  
+    "  ::-webkit-placeholder {\n" + 
+    "    color: red\n" +
+    "  }\n" + 
+    "}"
+  )
+    
+  t.deepEquals(tokens, {
+    objects: {
+      'Document': {
+        pseudos: {
+          '::-webkit-placeholder': {
+            rules: {
+              'color': 'red'
+            }
+          }
+        }
+      }
+    }
+  })
+  
+  t.end()
+})
 
 test("svg entity", function(t){
   

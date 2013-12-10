@@ -125,7 +125,7 @@ function getCssBlock(selector, rules, root){
   eachGroup(rules, function(name, value){
     result += name + ': ' + handleValue(value, root) + '; ' 
   })
-  return result + '} '
+  return result + '}\n'
 }
 
 function handleValue(value, root){
