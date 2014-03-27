@@ -32,6 +32,11 @@ function rootHandler(token, target){
     var styles = define('entities', token.group, target)
     eachToken(token.inner, objectHandler, styles)
   }
+
+  if (isPseudo(token.group)){
+    var styles = define('pseudos', token.group, target)
+    eachToken(token.inner, objectHandler, styles)
+  }
   
 }
 

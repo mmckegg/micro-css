@@ -283,6 +283,27 @@ test("element with attribute match", function(t){
   t.end()
 })
 
+test("root attribute match", function(t){
+  
+  var tokens = tokenizer(
+    "[hidden] {\n" +  
+    "  display: none\n" + 
+    "}"
+  )
+    
+  t.deepEquals({
+    pseudos: {
+      '[hidden]': {
+        rules: {
+          'display': 'none'
+        }
+      }
+    }
+  }, tokens)
+  
+  t.end()
+})
+
 test("object with flags and nested elements", function(t){
   
   var tokens = tokenizer(

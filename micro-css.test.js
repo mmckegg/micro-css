@@ -237,6 +237,21 @@ test("element with attribute match", function(t){
   t.end()
 })
 
+test("element with attribute match", function(t){
+  
+  var mcss = (
+    "[hidden] {\n" +  
+    "  display: none\n" + 
+    "}"
+  )
+  
+  var expected = "[hidden] { display: none; }\n"
+
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})
+
 test("object with multi flags", function(t){
   
   var mcss = (
