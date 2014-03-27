@@ -20,7 +20,7 @@
     "parser",
     "svg"
   ],
-  "main": "micro-css.js",
+  "main": "index.js",
   "scripts": {
     "test": "tap test/*.js"
   },

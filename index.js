@@ -1,4 +1,4 @@
-var tokenizer = require('./tokenizer')
+var tokenizer = require('./lib/tokenizer')
 var query = require('./query')
 
 module.exports = function(text){
