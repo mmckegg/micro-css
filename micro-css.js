@@ -1,4 +1,5 @@
 var tokenizer = require('./tokenizer')
+var query = require('./query')
 
 module.exports = function(text){
  
@@ -21,6 +22,7 @@ module.exports = function(text){
  return result
 }
 
+module.exports.query = query
 
 function getRules(style, root, prepend){
   
