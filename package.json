@@ -22,7 +22,7 @@
   ],
   "main": "micro-css.js",
   "scripts": {
-    "test": "tap *.test.js"
+    "test": "tap test/*.js"
   },
   "dependencies": {},
   "devDependencies": {

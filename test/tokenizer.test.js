@@ -1,6 +1,6 @@
 var test = require('tap').test
 
-var tokenizer = require('./tokenizer')
+var tokenizer = require('../lib/tokenizer')
 
 test("object with rules", function(t){
   

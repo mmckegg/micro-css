@@ -1,6 +1,6 @@
 var test = require('tap').test
 
-var microCss = require('./micro-css')
+var microCss = require('../')
 
 test("object with rules", function(t){
   
