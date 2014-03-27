@@ -38,6 +38,24 @@ test("root element with rules", function(t){
   t.end()
 })
 
+test("test preceded by operator", function(t){
+  
+  var tokens = tokenizer("p + p {\n  font-size: 10pt\n  color:#356\n }")
+  
+  t.deepEquals({
+    elements: {
+      'p + p': {
+        rules: {
+          'font-size': '10pt',
+          'color': '#356'
+        }
+      }
+    }
+  }, tokens)
+  
+  t.end()
+})
+
 test("element with pseudo class", function(t){
   
   var tokens = tokenizer("a {\n  :hover {\n    text-decoration: underline\n  }\n}")

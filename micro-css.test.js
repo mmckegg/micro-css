@@ -22,6 +22,28 @@ test("root element with rules", function(t){
   t.end()
 })
 
+test("test preceded by operator", function(t){
+  
+  var mcss = ("p + p {\n  margin-top: 10px\n }")
+  var expected = "p + p { margin-top: 10px; }\n"
+  
+  t.equal(microCss(mcss), expected)
+
+  t.end()
+})
+
+test("test nested preceded by operator", function(t){
+  
+  var mcss = "Object {\n" + 
+               "p + p {\n  margin-top: 10px\n }\n" +
+             "}"
+  var expected = ".Object > p + p { margin-top: 10px; }\n"
+  
+  t.equal(microCss(mcss), expected)
+
+  t.end()
+})
+
 test("element with pseudo class", function(t){
   
   var mcss = ("a {\n  :hover {\n    text-decoration: underline\n  }\n}")
