@@ -122,6 +122,33 @@ test("mixin to another rule", function(t){
   
 })
 
+test("nested mixin", function(t){
+  
+  var mcss = (
+    "Item { " +
+      "div { " +
+        "$noticeMe \n" +
+      "}\n" +
+      "$noticeMe { " + 
+        "-fancy { " + 
+          "background: green \n" + 
+        "}\n" + 
+        "color: gray " +
+      "}" +
+    "}"
+  )
+  
+  var expected = (
+    ".Item > div { color: gray; }\n" +
+    ".Item > div.-fancy { background: green; }\n"
+  )
+  
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+  
+})
+
 test("mixin with flags and inner rules", function(t){
   
   var mcss = ("$noticeMe { -fancy { background: green \n div.stuff { color: white } } }")
@@ -259,6 +286,23 @@ test("element with attribute match", function(t){
   t.end()
 })
 
+test("element with attribute equal match", function(t){
+  
+  var mcss = (
+    "input {\n" +  
+    "  [type='date'] {\n" + 
+    "    outline: dotted 1px silver\n" + 
+    "  }\n" + 
+    "}"
+  )
+  
+  var expected = "input[type='date'] { outline: dotted 1px silver; }\n"
+
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})
+
 test("element with attribute match", function(t){
   
   var mcss = (
@@ -317,6 +361,26 @@ test("test inline svg", function(t){
   
   var expected = 'body { background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsuLXN1YiA+IGVsbGlwc2UgeyBmaWxsOiBibHVlOyB9CmVsbGlwc2UgeyBmaWxsOiBncmVlbjsgfQpdXT48L3N0eWxlPjwvZGVmcz48ZWxsaXBzZS8+PC9zdmc+") no-repeat left; }\n' +
                  'div { background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgY2xhc3M9Ii1zdWIiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbLi1zdWIgPiBlbGxpcHNlIHsgZmlsbDogYmx1ZTsgfQplbGxpcHNlIHsgZmlsbDogZ3JlZW47IH0KXV0+PC9zdHlsZT48L2RlZnM+PGVsbGlwc2UvPjwvc3ZnPg=="); }\n'
+    
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})
+
+test("test nested inline svg", function(t){
+  
+  var mcss = (
+    "Object {\n" +
+    "  @svg test {\n" +  
+    "    content: '<ellipse/>'\n" +
+    "  }\n" +
+    "  div {\n" +
+    "    background: svg(test) \n" +
+    "  }\n" +
+    "}"
+  )
+  
+  var expected = '.Object > div { background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVtdXT48L3N0eWxlPjwvZGVmcz48ZWxsaXBzZS8+PC9zdmc+"); }\n'
     
   t.equal(microCss(mcss), expected)
   

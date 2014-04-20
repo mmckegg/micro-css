@@ -12,9 +12,9 @@ module.exports = function(text){
    eachGroup(style.mixins, function(name, innerStyle){
      var selector = getSelector(name)
      if (innerStyle.rules){
-       result += getCssBlock(selector, innerStyle.rules, style)
+       result += getCssBlock(selector, innerStyle)
      }
-     result += getRules(innerStyle, root, selector)
+     result += getRules(innerStyle, selector)
    })
 
  }
@@ -24,10 +24,14 @@ module.exports = function(text){
 
 module.exports.query = query
 
-function getRules(style, root, prepend){
-  
-  var root = root || style
-  
+function addParent(style, parent){
+  if (style !== parent){
+    style.parent = parent
+  }
+}
+
+function getRules(style, prepend){
+    
   var result = ""
   
 
@@ -35,8 +39,9 @@ function getRules(style, root, prepend){
   if (style.objects){
     
     eachGroup(style.objects, function(name, innerStyle){
+      addParent(innerStyle, style)
       var selector = getSelector(name)
-      result += getCssForSelector(selector, innerStyle, root)
+      result += getCssForSelector(selector, innerStyle)
     })
     
   }
@@ -44,9 +49,10 @@ function getRules(style, root, prepend){
   if (style.flags){
     
     eachGroup(style.flags, function(name, innerStyle){
+      addParent(innerStyle, style)
       name.split(',').forEach(function(n){
         var selector = getSelector(n.trim(), prepend)
-        result += getCssForSelector(selector, innerStyle, root)
+        result += getCssForSelector(selector, innerStyle)
       })
       
     })
@@ -56,9 +62,10 @@ function getRules(style, root, prepend){
   if (style.pseudos){
     
     eachGroup(style.pseudos, function(name, innerStyle){
+      addParent(innerStyle, style)
       name.split(',').forEach(function(n){
         var selector = getPseudoSelector(n.trim(), prepend)
-        result += getCssForSelector(selector, innerStyle, root)
+        result += getCssForSelector(selector, innerStyle)
       })
       
     })
@@ -68,6 +75,7 @@ function getRules(style, root, prepend){
   if (style.elements){
     
     eachGroup(style.elements, function(name, innerStyle){
+      addParent(innerStyle, style)
       
       var selectors = []
       var subItems = ""
@@ -77,11 +85,11 @@ function getRules(style, root, prepend){
         var parts = n.trim().split('.')
         var selector = getElementSelector(parts[0], parts[1], prepend, innerStyle.deep)
 
-        subItems += getRules(innerStyle, root, selector)
+        subItems += getRules(innerStyle, selector)
         selectors.push(selector)
       })
             
-      result += getCssForSelector(selectors.join(', '), innerStyle, root, subItems)      
+      result += getCssForSelector(selectors.join(', '), innerStyle, subItems)      
       
     })
 
@@ -91,49 +99,60 @@ function getRules(style, root, prepend){
   
 }
 
-function getCssForSelector(selector, innerStyle, root, overrideSubItems){
+function getCssForSelector(selector, innerStyle, overrideSubItems){
   var result = ""
   if (innerStyle.extensions){
-    result += getExtensions(selector, innerStyle.extensions, root)
+    result += getExtensions(selector, innerStyle)
   }
   if (innerStyle.rules){
-    result += getCssBlock(selector, innerStyle.rules, root)
+    result += getCssBlock(selector, innerStyle)
   }
   if (overrideSubItems == null){
-    result += getRules(innerStyle, root, selector)
+    result += getRules(innerStyle, selector)
   } else {
     result += overrideSubItems
   }
   return result
 }
 
-function getExtensions(selector, extensions, root){
+function getExtensions(selector, style){
   // TODO: should find a way that allows extensions to be grouped together with the original mixin - that way no duplication of rules
   // handle extensions
   var result = ""
-  if (extensions){
-    extensions.forEach(function(extension){
-      if (root.mixins && root.mixins[extension]){
-        var innerStyle = root.mixins[extension]
-        result += getCssForSelector(selector, innerStyle, root)
+  if (style.extensions){
+    style.extensions.forEach(function(name){
+      var innerStyle = find('mixins', style, name)
+      if (innerStyle){
+        result += getCssForSelector(selector, innerStyle)
       }
     })
   }
   return result
 }
 
-function getCssBlock(selector, rules, root){
+function find(key, style, extensionName){
+  var result = null
+  while (style && !result){
+    if (style[key] && style[key][extensionName]){
+      result = style[key][extensionName]
+    }
+    style = style.parent
+  }
+  return result
+}
+
+function getCssBlock(selector, style){
   var result = selector + " { "
-  eachGroup(rules, function(name, value){
-    result += name + ': ' + handleValue(value, root) + '; ' 
+  eachGroup(style.rules, function(name, value){
+    result += name + ': ' + handleValue(value, style) + '; ' 
   })
   return result + '}\n'
 }
 
-function handleValue(value, root){
+function handleValue(value, style){
   return value.replace(/(\W|^)(svg)\((.+)\)(\W|$)/g, function(match, prefix, type, name, suffix){
     if (type == 'svg'){
-      var url = getSvgDataUrl(name, root)
+      var url = getSvgDataUrl(name, style)
       return prefix + 'url("' + url + '")' + suffix
     } else {
       return ' '
@@ -141,12 +160,12 @@ function handleValue(value, root){
   })
 }
 
-function getSvgDataUrl(name, root){
+function getSvgDataUrl(name, style){
   var parts = name.split(' ')
-  var style = root.entities && root.entities['@svg ' + parts[0]]
+  var style = find('entities', style, '@svg ' + parts[0])
   if (style){
 
-    var innerStyles = getRules(style, root)
+    var innerStyles = getRules(style)
     var svg = getSvgBlock(style.rules, innerStyles, parts.slice(1))
 
     var encoded = new Buffer(svg).toString('base64')
@@ -231,4 +250,17 @@ function eachGroup(groups, iterator){
   Object.keys(groups).forEach(function(key){
     iterator(key, groups[key])
   })
+}
+
+function mergeClone(){
+  var result = {}
+  for (var i=0;i<arguments.length;i++){
+    var obj = arguments[i]
+    if (obj){
+      Object.keys(obj).forEach(function(key){
+        result[key] = obj[key]
+      })
+    }
+  }
+  return result
 }

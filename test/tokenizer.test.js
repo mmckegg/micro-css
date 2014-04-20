@@ -116,6 +116,32 @@ test("mixin with rules", function(t){
   t.end()
 })
 
+test("nested mixin", function(t){
+  
+  var tokens = tokenizer("Object { div { $mixin } $mixin { color: red } }")
+  
+  t.deepEquals(tokens, {
+    objects: {
+      'Object': {
+        elements: {
+          'div': {
+            extensions: ['$mixin']
+          }
+        },
+        mixins: {
+          '$mixin': {
+            rules: {
+              'color': 'red'
+            }
+          }
+        }
+      }
+    }
+  })
+  
+  t.end()
+})
+
 test("mixin to another rule", function(t){
   
   var tokens = tokenizer(
@@ -550,6 +576,33 @@ test("svg entity", function(t){
           'ellipse': {
             rules: {
               'fill': 'green'
+            }
+          }
+        }
+      }
+    }
+  }, tokens)
+  
+  t.end()
+})
+
+test("nested svg entity", function(t){
+  
+  var tokens = tokenizer(
+    "Object {\n" +
+    "  @svg test {\n" +  
+    "    content: '<ellipse/>'\n" +
+    "  }\n" +
+    "}"
+  )
+    
+  t.deepEquals({
+    objects: {
+      'Object': {
+        entities: {
+          '@svg test': {
+            rules: {
+              'content': "'<ellipse/>'"
             }
           }
         }
