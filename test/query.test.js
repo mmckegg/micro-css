@@ -1,4 +1,4 @@
-var test = require('tap').test
+var test = require('tape')
 var query = require('../query')
 
 test('test', function(t){
