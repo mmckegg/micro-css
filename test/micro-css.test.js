@@ -32,6 +32,43 @@ test("test preceded by operator", function(t){
   t.end()
 })
 
+test("test multiple elements", function(t){
+  
+  var mcss = ("input, select {\n  width: 100px\n }")
+  var expected = "input, select { width: 100px; }\n"
+  
+  t.equal(microCss(mcss), expected)
+
+  t.end()
+})
+
+test("test multiple elements with nesting", function(t){
+  
+  var mcss = "input, select {\n" + 
+               "[disabled] {\n  opacity: 0.5\n }\n" +
+             "}"
+  var expected = "input[disabled] { opacity: 0.5; }\nselect[disabled] { opacity: 0.5; }\n"
+  
+  t.equal(microCss(mcss), expected)
+
+  t.end()
+})
+
+test("test multiple elements with mixin", function(t){
+  
+  var mcss = "input, select {\n" + 
+             "  $mixin\n" +
+             "}\n" +
+             "$mixin {\n" +
+             "  [disabled]{ opacity: 0.5 }\n" +
+             "}"
+  var expected = "input[disabled] { opacity: 0.5; }\nselect[disabled] { opacity: 0.5; }\n.\\$mixin[disabled] { opacity: 0.5; }\n"
+  
+  t.equal(microCss(mcss), expected)
+
+  t.end()
+})
+
 test("nested mixins", function(t){
   
   var mcss = "div {\n" + 

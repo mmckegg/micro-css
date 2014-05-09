@@ -124,7 +124,9 @@ function getExtensions(selector, style){
       var innerStyle = find('mixins', style, name)
       addParent(innerStyle, style)
       if (innerStyle){
-        result += getCssForSelector(selector, innerStyle)
+        selector.split(',').forEach(function(part){
+          result += getCssForSelector(part.trim(), innerStyle)
+        })
       }
     })
   }
