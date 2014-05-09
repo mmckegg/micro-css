@@ -32,6 +32,25 @@ test("test preceded by operator", function(t){
   t.end()
 })
 
+test("nested mixins", function(t){
+  
+  var mcss = "div {\n" + 
+             "  $mixin\n" +
+             "}\n" +
+             "$mixin {\n" +
+             "  background: green\n" +
+             "  $innerMixin\n" +
+             "}\n"+
+             "$innerMixin {\n" +
+             "  div{ color: red }\n" +
+             "}"
+  var expected = "div > div { color: red; }\ndiv { background: green; }\n.\\$mixin { background: green; }\n.\\$innerMixin > div { color: red; }\n"
+  
+  t.equal(microCss(mcss), expected)
+
+  t.end()
+})
+
 test("test nested preceded by operator", function(t){
   
   var mcss = "Object {\n" + 

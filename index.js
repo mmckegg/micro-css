@@ -122,6 +122,7 @@ function getExtensions(selector, style){
   if (style.extensions){
     style.extensions.forEach(function(name){
       var innerStyle = find('mixins', style, name)
+      addParent(innerStyle, style)
       if (innerStyle){
         result += getCssForSelector(selector, innerStyle)
       }
