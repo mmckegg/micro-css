@@ -25,7 +25,7 @@ module.exports = function(text){
 module.exports.query = query
 
 function addParent(style, parent){
-  if (style !== parent){
+  if (style && style !== parent){
     style.parent = parent
   }
 }
