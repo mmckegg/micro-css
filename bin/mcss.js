@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var microCss = require('../micro-css')
+var microCss = require('../')
   , fs = require('fs')
 
 var argv = require('optimist').usage('Usage: $0 [entry files] {OPTIONS}').wrap(80).option('outfile', {
