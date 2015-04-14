@@ -18,6 +18,19 @@ module.exports = function(text){
    })
 
  }
+
+
+ if (style.entities) {
+
+   eachGroup(style.entities, function(name, innerStyle){
+
+     if (!/^@svg /.exec(name)) {
+       result += getEntityCss(name, innerStyle) + '\n'
+     }
+
+   })
+
+ }
  
  return result
 }
@@ -33,8 +46,6 @@ function addParent(style, parent){
 function getRules(style, prepend){
     
   var result = ""
-  
-
   
   if (style.objects){
     
@@ -112,6 +123,26 @@ function getCssForSelector(selector, innerStyle, overrideSubItems){
   } else {
     result += overrideSubItems
   }
+  return result
+}
+
+function getEntityCss(name, style) {
+  var result = name + ' { '
+
+  if (style.rules) {
+    eachGroup(style.rules, function(name, value){
+      result += name + ': ' + handleValue(value, style) + '; ' 
+    })
+  }
+
+  if (style.elements) {
+    eachGroup(style.elements, function(name, value){
+      result += getEntityCss(name, value) + ' '
+    })
+  }
+
+  result += '}'
+
   return result
 }
 

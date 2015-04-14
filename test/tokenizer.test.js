@@ -612,3 +612,40 @@ test("nested svg entity", function(t){
   
   t.end()
 })
+
+test("css entity with nesting", function(t){
+  
+  var tokens = tokenizer(
+    "@keyframes test {\n" +  
+    "  from { background-color: red }\n" +
+    "  50% { background-color: green }\n" +
+    "  to { background-color: blue }\n" +
+    "}"
+  )
+    
+  t.deepEquals({
+    entities: {
+      '@keyframes test': {
+        elements: {
+          'from': {
+            rules: {
+              'background-color': 'red'
+            }
+          },
+          '50%': {
+            rules: {
+              'background-color': 'green'
+            }
+          },
+          'to': {
+            rules: {
+              'background-color': 'blue'
+            }
+          }
+        }
+      }
+    }
+  }, tokens)
+  
+  t.end()
+})

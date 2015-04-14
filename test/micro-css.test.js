@@ -442,3 +442,20 @@ test("test nested inline svg", function(t){
   
   t.end()
 })
+
+test("test keyframes", function(t){
+  
+  var mcss = (
+    "@keyframes test {\n" +  
+    "  from { background-color: red }\n" +
+    "  50% { background-color: green }\n" +
+    "  to { background-color: blue }\n" +
+    "}"
+  )
+  
+  var expected = '@keyframes test { from { background-color: red; } 50% { background-color: green; } to { background-color: blue; } }\n'
+    
+  t.equal(microCss(mcss), expected)
+  
+  t.end()
+})

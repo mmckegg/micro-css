@@ -434,3 +434,23 @@ Item {
 ```
 
 The svg is automatically inlined as a data url.
+
+### CSS Entities
+
+```scss
+@keyframes animationName {
+  from { background-color: red }
+  50% { background-color: green }
+  to { background-color: blue }
+}
+```
+
+Becomes
+
+```css
+@keyframes animationName {
+  from { background-color: red; }
+  50% { background-color: green; }
+  to { background-color: blue; }
+}
+```
