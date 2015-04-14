@@ -56,7 +56,7 @@ test('children but no properties', function(t){
 
   var res = h('div', 'text')
   t.deepEqual(res, [
-    'div', undefined, 'text'
+    'div', null, 'text'
   ])
 
   t.end()
