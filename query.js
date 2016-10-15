@@ -1,5 +1,4 @@
-module.exports = function(query){
-
+module.exports = function (query) {
   // classes
   query = query.replace(/\./g, '.\\.')
 
@@ -14,15 +13,15 @@ module.exports = function(query){
   return results.join(', ')
 }
 
-function handleDepth(query){
+function handleDepth (query) {
   var result = []
   var parts = query.trim().split(' ')
-  for (var i=0;i<parts.length;i++){
+  for (var i = 0; i < parts.length; i++) {
     var part = parts[i]
     var deepQuery = getDeepQuery(part)
     part = deepQuery || part
 
-    if (!deepQuery && i > 0){
+    if (!deepQuery && i > 0) {
       result.push('>')
     }
 
@@ -31,8 +30,8 @@ function handleDepth(query){
   return result.join(' ')
 }
 
-function getDeepQuery(query){
-  if (query.slice(0,1) === '(' && query.slice(-1) === ')'){
-    return query.slice(1,-1)
+function getDeepQuery (query) {
+  if (query.slice(0, 1) === '(' && query.slice(-1) === ')') {
+    return query.slice(1, -1)
   }
 }

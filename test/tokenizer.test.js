@@ -2,10 +2,9 @@ var test = require('tape')
 
 var tokenizer = require('../lib/tokenizer')
 
-test("object with rules", function(t){
-  
-  var tokens = tokenizer("Document {\n  background-color: silver\n  color:gray\n }")
-  
+test('object with rules', function (t) {
+  var tokens = tokenizer('Document {\n  background-color: silver\n  color:gray\n }')
+
   t.deepEquals({
     objects: {
       'Document': {
@@ -16,14 +15,13 @@ test("object with rules", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("root element with rules", function(t){
-  
-  var tokens = tokenizer("h1 {\n  font-size: 10pt\n  color:#356\n }")
-  
+test('root element with rules', function (t) {
+  var tokens = tokenizer('h1 {\n  font-size: 10pt\n  color:#356\n }')
+
   t.deepEquals({
     elements: {
       'h1': {
@@ -34,14 +32,13 @@ test("root element with rules", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("test preceded by operator", function(t){
-  
-  var tokens = tokenizer("p + p {\n  font-size: 10pt\n  color:#356\n }")
-  
+test('test preceded by operator', function (t) {
+  var tokens = tokenizer('p + p {\n  font-size: 10pt\n  color:#356\n }')
+
   t.deepEquals({
     elements: {
       'p + p': {
@@ -52,14 +49,13 @@ test("test preceded by operator", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("element with pseudo class", function(t){
-  
-  var tokens = tokenizer("a {\n  :hover {\n    text-decoration: underline\n  }\n}")
-  
+test('element with pseudo class', function (t) {
+  var tokens = tokenizer('a {\n  :hover {\n    text-decoration: underline\n  }\n}')
+
   t.deepEquals(tokens, {
     elements: {
       'a': {
@@ -73,14 +69,13 @@ test("element with pseudo class", function(t){
       }
     }
   })
-  
+
   t.end()
 })
 
-test("element with multiple pseudo classes", function(t){
-  
+test('element with multiple pseudo classes', function (t) {
   var tokens = tokenizer("a {\n  :before, :after {\n    content: '-'\n  }\n}")
-  
+
   t.deepEquals(tokens, {
     elements: {
       'a': {
@@ -94,14 +89,13 @@ test("element with multiple pseudo classes", function(t){
       }
     }
   })
-  
+
   t.end()
 })
 
-test("mixin with rules", function(t){
-  
-  var tokens = tokenizer("$noticeMe {\n  background-color: fuchsia\n  color:lime\n }")
-  
+test('mixin with rules', function (t) {
+  var tokens = tokenizer('$noticeMe {\n  background-color: fuchsia\n  color:lime\n }')
+
   t.deepEquals({
     mixins: {
       '$noticeMe': {
@@ -112,14 +106,13 @@ test("mixin with rules", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("nested mixin", function(t){
-  
-  var tokens = tokenizer("Object { div { $mixin } $mixin { color: red } }")
-  
+test('nested mixin', function (t) {
+  var tokens = tokenizer('Object { div { $mixin } $mixin { color: red } }')
+
   t.deepEquals(tokens, {
     objects: {
       'Object': {
@@ -138,27 +131,26 @@ test("nested mixin", function(t){
       }
     }
   })
-  
+
   t.end()
 })
 
-test("mixin to another rule", function(t){
-  
+test('mixin to another rule', function (t) {
   var tokens = tokenizer(
-    "$noticeMe { " + 
-      "-fancy { " + 
-        "background: green \n" + 
-        "div.stuff { color: white } " + 
-      "} " + 
-    "}" +
-    "Item { " +
-      "$noticeMe \n" +
-      "div { " +
-        "color: gray " +
-      "}" +
-    "}"
+    '$noticeMe { ' +
+      '-fancy { ' +
+        'background: green \n' +
+        'div.stuff { color: white } ' +
+      '} ' +
+    '}' +
+    'Item { ' +
+      '$noticeMe \n' +
+      'div { ' +
+        'color: gray ' +
+      '}' +
+    '}'
   )
-  
+
   t.deepEquals({
     mixins: {
       '$noticeMe': {
@@ -191,12 +183,12 @@ test("mixin to another rule", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("mixin extending element with no rules", function(t){
-  var tokens = tokenizer("div { $mixin }")
+test('mixin extending element with no rules', function (t) {
+  var tokens = tokenizer('div { $mixin }')
   t.deepEquals(tokens, {
     elements: {
       'div': {
@@ -207,10 +199,9 @@ test("mixin extending element with no rules", function(t){
   t.end()
 })
 
-test("mixin with flags and inner rule", function(t){
-  
-  var tokens = tokenizer("$noticeMe { -fancy { background: green \n div.stuff { color: white } } }")
-  
+test('mixin with flags and inner rule', function (t) {
+  var tokens = tokenizer('$noticeMe { -fancy { background: green \n div.stuff { color: white } } }')
+
   t.deepEquals(tokens, {
     mixins: {
       '$noticeMe': {
@@ -231,23 +222,22 @@ test("mixin with flags and inner rule", function(t){
       }
     }
   })
-  
+
   t.end()
 })
 
-test("object with flags", function(t){
-  
+test('object with flags', function (t) {
   var tokens = tokenizer(
-    "Document {\n" +  
-    "  background-color: silver\n" + 
-    "  color:gray\n" + 
-    "  -wide {\n" + 
-    "    width: 700px\n" + 
-    "    padding:30px\n" + 
-    "  }\n" + 
-    "}"
+    'Document {\n' +
+    '  background-color: silver\n' +
+    '  color:gray\n' +
+    '  -wide {\n' +
+    '    width: 700px\n' +
+    '    padding:30px\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     objects: {
       'Document': {
@@ -266,21 +256,20 @@ test("object with flags", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("object with deep element", function(t){
-  
+test('object with deep element', function (t) {
   var tokens = tokenizer(
-    "Document {\n" +  
-    "  (strong) {\n" + 
-    "    font-weight: bold\n" + 
-    "    color: blue\n" + 
-    "  }\n" + 
-    "}"
+    'Document {\n' +
+    '  (strong) {\n' +
+    '    font-weight: bold\n' +
+    '    color: blue\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     objects: {
       'Document': {
@@ -296,20 +285,19 @@ test("object with deep element", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("element with attribute match", function(t){
-  
+test('element with attribute match', function (t) {
   var tokens = tokenizer(
-    "div {\n" +  
-    "  [contenteditable] {\n" + 
-    "    outline: dotted 1px silver\n" + 
-    "  }\n" + 
-    "}"
+    'div {\n' +
+    '  [contenteditable] {\n' +
+    '    outline: dotted 1px silver\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     elements: {
       'div': {
@@ -323,18 +311,17 @@ test("element with attribute match", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("root attribute match", function(t){
-  
+test('root attribute match', function (t) {
   var tokens = tokenizer(
-    "[hidden] {\n" +  
-    "  display: none\n" + 
-    "}"
+    '[hidden] {\n' +
+    '  display: none\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     pseudos: {
       '[hidden]': {
@@ -344,27 +331,26 @@ test("root attribute match", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("object with flags and nested elements", function(t){
-  
+test('object with flags and nested elements', function (t) {
   var tokens = tokenizer(
-    "Document {\n" +  
-    "  background-color: silver\n" + 
-    "  color:gray\n" + 
-    "  -main {\n" + 
-    "    padding:30px\n" + 
-    "    heading {\n" +
-    "      border-bottom: 1px solid gray\n" +
-    "      background-color: silver\n" +
-    "      color: black\n" +
-    "    }\n" +
-    "  }\n" + 
-    "}"
+    'Document {\n' +
+    '  background-color: silver\n' +
+    '  color:gray\n' +
+    '  -main {\n' +
+    '    padding:30px\n' +
+    '    heading {\n' +
+    '      border-bottom: 1px solid gray\n' +
+    '      background-color: silver\n' +
+    '      color: black\n' +
+    '    }\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     objects: {
       'Document': {
@@ -391,29 +377,28 @@ test("object with flags and nested elements", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("object with flags and multiple nested elements", function(t){
-  
+test('object with flags and multiple nested elements', function (t) {
   var tokens = tokenizer(
-    "Document {\n" +  
-    "  background-color: silver\n" + 
-    "  color:gray\n" + 
-    "  -main {\n" + 
-    "    padding:30px\n" + 
-    "    heading {\n" +
-    "      border-bottom: 1px solid gray\n" +
-    "      background-color: silver\n" +
-    "      h1 {\n" + 
-    "       color: black\n" +
-    "      }\n" +
-    "    }\n" +
-    "  }\n" + 
-    "}"
+    'Document {\n' +
+    '  background-color: silver\n' +
+    '  color:gray\n' +
+    '  -main {\n' +
+    '    padding:30px\n' +
+    '    heading {\n' +
+    '      border-bottom: 1px solid gray\n' +
+    '      background-color: silver\n' +
+    '      h1 {\n' +
+    '       color: black\n' +
+    '      }\n' +
+    '    }\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     objects: {
       'Document': {
@@ -430,7 +415,7 @@ test("object with flags and multiple nested elements", function(t){
               'heading': {
                 rules: {
                   'border-bottom': '1px solid gray',
-                  'background-color': 'silver',
+                  'background-color': 'silver'
                 },
                 elements: {
                   h1: {
@@ -446,20 +431,19 @@ test("object with flags and multiple nested elements", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("object with filtered elements", function(t){
-  
+test('object with filtered elements', function (t) {
   var tokens = tokenizer(
-    "Document {\n" +  
-    "  span.name {\n" + 
-    "    color: red\n" +
-    "  }\n" + 
-    "}"
+    'Document {\n' +
+    '  span.name {\n' +
+    '    color: red\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     objects: {
       'Document': {
@@ -473,20 +457,19 @@ test("object with filtered elements", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("object with multi flags", function(t){
-  
+test('object with multi flags', function (t) {
   var tokens = tokenizer(
-    "Document {\n" +  
-    "  -large -red, -notice {\n" + 
-    "    color: red\n" +
-    "  }\n" + 
-    "}"
+    'Document {\n' +
+    '  -large -red, -notice {\n' +
+    '    color: red\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     objects: {
       'Document': {
@@ -500,18 +483,17 @@ test("object with multi flags", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("wildcard root", function(t){
-  
+test('wildcard root', function (t) {
   var tokens = tokenizer(
-    "* {\n" +  
-    "  box-sizing: border-box\n" + 
-    "}"
+    '* {\n' +
+    '  box-sizing: border-box\n' +
+    '}'
   )
-    
+
   t.deepEquals(tokens, {
     elements: {
       '*': {
@@ -521,19 +503,19 @@ test("wildcard root", function(t){
       }
     }
   })
-  
+
   t.end()
 })
 
-test("pseudos elements", function(t){
+test('pseudos elements', function (t) {
   var tokens = tokenizer(
-    "Document {\n" +  
-    "  ::-webkit-placeholder {\n" + 
-    "    color: red\n" +
-    "  }\n" + 
-    "}"
+    'Document {\n' +
+    '  ::-webkit-placeholder {\n' +
+    '    color: red\n' +
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals(tokens, {
     objects: {
       'Document': {
@@ -547,23 +529,22 @@ test("pseudos elements", function(t){
       }
     }
   })
-  
+
   t.end()
 })
 
-test("svg entity", function(t){
-  
+test('svg entity', function (t) {
   var tokens = tokenizer(
-    "@svg test {\n" +  
+    '@svg test {\n' +
     "  content: '<ellipse/>'\n" +
-    "  width: 16px\n" +
-    "  height: 16px \n" +
-    "  ellipse { \n" +
-    "    fill: green  \n " +
-    "  } \n" +
-    "}"
+    '  width: 16px\n' +
+    '  height: 16px \n' +
+    '  ellipse { \n' +
+    '    fill: green  \n ' +
+    '  } \n' +
+    '}'
   )
-    
+
   t.deepEquals({
     entities: {
       '@svg test': {
@@ -582,20 +563,19 @@ test("svg entity", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("nested svg entity", function(t){
-  
+test('nested svg entity', function (t) {
   var tokens = tokenizer(
-    "Object {\n" +
-    "  @svg test {\n" +  
+    'Object {\n' +
+    '  @svg test {\n' +
     "    content: '<ellipse/>'\n" +
-    "  }\n" +
-    "}"
+    '  }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     objects: {
       'Object': {
@@ -609,20 +589,19 @@ test("nested svg entity", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })
 
-test("css entity with nesting", function(t){
-  
+test('css entity with nesting', function (t) {
   var tokens = tokenizer(
-    "@keyframes test {\n" +  
-    "  from { background-color: red }\n" +
-    "  50% { background-color: green }\n" +
-    "  to { background-color: blue }\n" +
-    "}"
+    '@keyframes test {\n' +
+    '  from { background-color: red }\n' +
+    '  50% { background-color: green }\n' +
+    '  to { background-color: blue }\n' +
+    '}'
   )
-    
+
   t.deepEquals({
     entities: {
       '@keyframes test': {
@@ -646,6 +625,6 @@ test("css entity with nesting", function(t){
       }
     }
   }, tokens)
-  
+
   t.end()
 })

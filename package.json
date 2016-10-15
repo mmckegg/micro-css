@@ -22,12 +22,14 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "standard && tap test/*.js"
   },
   "dependencies": {},
   "devDependencies": {
-    "tape": "*",
-    "optimist": "*"
+    "optimist": "*",
+    "standard": "^8.4.0",
+    "tap": "^7.1.2",
+    "tape": "*"
   },
   "optionalDependencies": {},
   "engines": {

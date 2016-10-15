@@ -1,8 +1,9 @@
+/* eslint-disable no-redeclare */
+
 var test = require('tape')
 var ctor = require('../h.js')
 
-test('parsing classes', function(t){
-
+test('parsing classes', function (t) {
   var h = ctor(innerH)
   var res = h('div.class Object -flag -anotherFlag $mixin')
 
@@ -15,42 +16,40 @@ test('parsing classes', function(t){
   t.end()
 })
 
-test('add classes to specified', function(t){
-
+test('add classes to specified', function (t) {
   var h = ctor(innerH)
   var res = h('div.class', {className: 'another'})
 
   t.deepEqual(res, [
-    'div', 
-    { className: '.class another' }, 
+    'div',
+    { className: '.class another' },
     undefined
   ])
 
   t.end()
 })
 
-test('children but no properties', function(t){
-
+test('children but no properties', function (t) {
   var h = ctor(innerH)
 
   var res = h('div.class', ['children'])
   t.deepEqual(res, [
-    'div', 
-    { className: '.class' }, 
+    'div',
+    { className: '.class' },
     ['children']
   ])
 
   var res = h('div.class', new FakeVnode('span'))
   t.deepEqual(res, [
-    'div', 
-    { className: '.class' }, 
+    'div',
+    { className: '.class' },
     { type: 'vnode', tag: 'span' }
   ])
 
   var res = h('div.class', 'text')
   t.deepEqual(res, [
-    'div', 
-    { className: '.class' }, 
+    'div',
+    { className: '.class' },
     'text'
   ])
 
@@ -62,12 +61,11 @@ test('children but no properties', function(t){
   t.end()
 })
 
-
-function innerH(tagName, properties, children){
+function innerH (tagName, properties, children) {
   return [tagName, properties, children]
 }
 
-function FakeVnode(tag){
+function FakeVnode (tag) {
   this.tag = tag
   this.type = 'vnode'
 }
