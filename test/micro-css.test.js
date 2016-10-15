@@ -16,7 +16,17 @@ test("root element with rules", function(t){
   
   var mcss = ("h1 {\n  font-size: 10pt\n  color:#356\n }")
   var expected = "h1 { font-size: 10pt; color: #356; }\n"
-  
+
+  t.equal(microCss(mcss), expected)
+
+  t.end()
+})
+
+test("svg element with short attributes", function(t){
+
+  var mcss = ("rect {\n  y: 50%\n }")
+  var expected = "rect { y: 50%; }\n"
+
   t.equal(microCss(mcss), expected)
 
   t.end()
