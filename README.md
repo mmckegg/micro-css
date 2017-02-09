@@ -4,6 +4,11 @@ A CSS preprocessor that provides a simplified object orientated approach to css.
 
 [![NPM](https://nodei.co/npm/micro-css.png?compact=true)](https://nodei.co/npm/micro-css/)
 
+## BREAKING CHANGES IN v1.0
+
+- element classes are no longer prefixed with `//.` in generated output
+- mixins are now prefixed with `_` instead of `$` to avoid escaping in generated output.
+
 ## A bit of background
 
 I think there comes a time in any front-end web developer's life when CSS stops being "the most amazing powerful design language on earth" and changes to become the skeletons in our closet that we prefer not to think about too much. This was certainly my experience.
