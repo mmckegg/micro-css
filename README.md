@@ -1,6 +1,6 @@
 # Micro CSS
 
-A CSS preprocessor that provides a simplified object orientated approach to css. The syntax is very similar to CSS but encourages better reuse of classes and discourages high [specificity](http://www.htmldog.com/guides/cssadvanced/specificity/). 
+A CSS preprocessor that provides a simplified object orientated approach to css. The syntax is very similar to CSS but encourages better reuse of classes and discourages high [specificity](http://www.htmldog.com/guides/cssadvanced/specificity/).
 
 [![NPM](https://nodei.co/npm/micro-css.png?compact=true)](https://nodei.co/npm/micro-css/)
 
@@ -8,11 +8,11 @@ A CSS preprocessor that provides a simplified object orientated approach to css.
 
 I think there comes a time in any front-end web developer's life when CSS stops being "the most amazing powerful design language on earth" and changes to become the skeletons in our closet that we prefer not to think about too much. This was certainly my experience.
 
-CSS is undoubtedly powerful, but it's too powerful. It encourages you to do things that seem efficient and clever at the time but eventually turn in to absolute maintenance nightmares. 
+CSS is undoubtedly powerful, but it's too powerful. It encourages you to do things that seem efficient and clever at the time but eventually turn in to absolute maintenance nightmares.
 
-One night I couldn't sleep, I was thinking about the new redesign and how many things would start to break or have to be hacked around to do the new CSS. I realized that I would probably have to completely start again with the CSS on the page. But how should I structure it so that this wouldn't happen again? 
+One night I couldn't sleep, I was thinking about the new redesign and how many things would start to break or have to be hacked around to do the new CSS. I realized that I would probably have to completely start again with the CSS on the page. But how should I structure it so that this wouldn't happen again?
 
-I got reading on the internets, trying to find better ways to do it - preprocessors, frameworks, etc. I'd used SASS/SCSS in the past, and while the nesting functions were nice, it was still far too easy to make a mess. I came across [Stubbornella's](http://www.stubbornella.org/) [Object Oriented CSS project](http://oocss.org/). I really liked some of the ideas and concepts. Things like writing for reuse and avoiding specificity. For me OOCSS it wasn't the answer though, it just didn't click for me, so I started to think about how I could twist CSS to be less unwieldy. 
+I got reading on the internets, trying to find better ways to do it - preprocessors, frameworks, etc. I'd used SASS/SCSS in the past, and while the nesting functions were nice, it was still far too easy to make a mess. I came across [Stubbornella's](http://www.stubbornella.org/) [Object Oriented CSS project](http://oocss.org/). I really liked some of the ideas and concepts. Things like writing for reuse and avoiding specificity. For me OOCSS it wasn't the answer though, it just didn't click for me, so I started to think about how I could twist CSS to be less unwieldy.
 
 I wanted to be able to define objects, but not have to worry about where those objects were on the page. I wanted those objects to have multiple elements but not have those styles spill into other objects. I wanted to be able to add classes to objects as tags/flags - only applying if the object were a particular type. I wanted to be able to create mixins that could be applied to multiple elements, but not used on their own. CSS can do all of these things fairly easy, but it just doesn't encourage it.
 
@@ -33,20 +33,20 @@ Here's some HTML we want to style:
       <section></section>
       <footer></footer>
     </aside>
-    
+
     <article class="Page -wide -editable -post">
-    
+
       <header>
         <h1>Post Title</h1>
         <p>Subtitle</p>
       </header>
-      
+
       <nav></nav>
       <section>
         <header></header>
       </section>
     </article>
-    
+
   </body>
 </html>
 ```
@@ -62,34 +62,34 @@ And some MCSS to do the styling:
     }
     section {
       header {
-        
+
       }
       footer {
-        
+
       }
     }
     footer {
-      
+
     }
   }
-  
+
   Page {
     header {
-      
+
     }
     nav {
-      
+
     }
     section {
-      
+
     }
     footer {
-      
+
     }
   }
-  
+
   Comment {
-    
+
   }
 ```
 
@@ -235,6 +235,7 @@ Becomes:
 ```
 
 So I can use the `-special` flag wherever I like and not worry about stepping on another namespace.
+
 ### Specify multiple possibilities [OR]...
 
 ```scss
@@ -325,7 +326,7 @@ Becomes:
 A way to reuse styles in multiple places.
 
 ```scss
-$fancyThing {
+_fancyThing {
   box-shadow: 10px 10px silver
   div {
     font-size: 90%
@@ -333,8 +334,8 @@ $fancyThing {
 }
 
 Item {
-  $fancyThing
-  
+  _fancyThing
+
   border: solid 1px gray
   background-color: fuchsia
 }
@@ -347,19 +348,19 @@ Becomes:
   border: solid 1px gray
   background-color: fuchsia
 }
-.\$fancyThing, .Item {
+._fancyThing, .Item {
   box-shadow: 10px 10px silver;
 }
-.\$fancyThing > div, .Item > div {
+._fancyThing > div, .Item > div {
   font-size: 90%;
 }
 ```
 
-So we can also use the $mixin directly as well if we like.
+So we can also use the `_mixin` directly as well if we like.
 
 ### Element classes - basically how most people currently use classes
 
-Except severely crippled so you can't hurt yourself.
+Except severely limited so you can't hurt yourself.
 
 ```scss
 Item {
@@ -379,10 +380,10 @@ Becomes
 .Item {
   color: black;
 }
-.Item > div.\.main {
+.Item > div.main {
   font-weight:bold
 }
-.Item > div.\.extra {
+.Item > div.extra {
   color: gray
 }
 ```
@@ -391,19 +392,19 @@ And we can use it like this in our HTML:
 
 ```html
 <div class='Item'>
-  <div class='.main'>
+  <div class='main'>
     I am some main text
   </div>
   <div>
     I am a standard div
   </div>
-  <div class='.extra'>
+  <div class='extra'>
     I am an extra div
   </div>
 </div>
 ```
 
-They can only be used with an element selector, and never on their own. And generally should be avoided if they have a better pure element alternative. 
+They can only be used with an element selector, and never on their own. And generally should be avoided if they have a better pure element alternative.
 
 ### Inline SVG
 

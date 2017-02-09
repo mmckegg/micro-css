@@ -5,11 +5,11 @@ var ctor = require('../h.js')
 
 test('parsing classes', function (t) {
   var h = ctor(innerH)
-  var res = h('div.class Object -flag -anotherFlag $mixin')
+  var res = h('div.class Object -flag -anotherFlag _mixin')
 
   t.deepEqual(res, [
-    'div', {
-      className: '.class Object -flag -anotherFlag $mixin'
+    'div.class', {
+      className: 'Object -flag -anotherFlag _mixin'
     }, undefined
   ])
 
@@ -21,8 +21,21 @@ test('add classes to specified', function (t) {
   var res = h('div.class', {className: 'another'})
 
   t.deepEqual(res, [
-    'div',
-    { className: '.class another' },
+    'div.class',
+    { className: 'another' },
+    undefined
+  ])
+
+  t.end()
+})
+
+test('no element specified with class', function (t) {
+  var h = ctor(innerH)
+  var res = h('.class', {className: 'another'})
+
+  t.deepEqual(res, [
+    '.class',
+    { className: 'another' },
     undefined
   ])
 
@@ -34,22 +47,20 @@ test('children but no properties', function (t) {
 
   var res = h('div.class', ['children'])
   t.deepEqual(res, [
-    'div',
-    { className: '.class' },
-    ['children']
+    'div.class', null, ['children']
   ])
 
   var res = h('div.class', new FakeVnode('span'))
   t.deepEqual(res, [
-    'div',
-    { className: '.class' },
+    'div.class',
+    null,
     { type: 'vnode', tag: 'span' }
   ])
 
   var res = h('div.class', 'text')
   t.deepEqual(res, [
-    'div',
-    { className: '.class' },
+    'div.class',
+    null,
     'text'
   ])
 

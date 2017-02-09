@@ -1,4 +1,4 @@
-var tagMatcher = /^([a-z0-9]+)?(.*)$/
+var tagMatcher = /^(\.?[a-z0-9]+)/
 
 // pass a hyperscript ctor to wrap with mcss parsing
 module.exports = function (h) {
@@ -8,9 +8,9 @@ module.exports = function (h) {
       props = null
     }
 
-    var parts = tagMatcher.exec(tag)
-    var tagName = parts[1] || 'div'
-    var classes = parts[2].trim()
+    var parts = tag.split(' ')
+    var tagName = parts.filter(isTagName)[0] || 'div'
+    var classes = parts.filter(isNotTagName).join(' ')
 
     if (classes) {
       props = props || {}
@@ -27,4 +27,12 @@ module.exports = function (h) {
 
 function isChildren (object) {
   return Array.isArray(object) || !(object instanceof Object) || Object.getPrototypeOf(object) !== Object.prototype
+}
+
+function isTagName (name) {
+  return !!tagMatcher.exec(name)
+}
+
+function isNotTagName (name) {
+  return !isTagName(name)
 }

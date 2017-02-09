@@ -1,7 +1,4 @@
 module.exports = function (query) {
-  // classes
-  query = query.replace(/\./g, '.\\.')
-
   // objects
   query = query.replace(/(^| )([A-Z])/, '$1.$2')
 
