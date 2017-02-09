@@ -11,7 +11,7 @@
 		{	match = '(\-[a-z][A-Za-z]+)( )?{';
 			captures = { 1 = { name = 'support.mcss'; }; };
 		},
-		{	match = '(\$[a-z][A-Za-z]+)( )?{';
+		{	match = '(_[a-z][A-Za-z]+)( )?{';
 			captures = { 1 = { name = 'string.mcss'; }; };
 		},
 		{	match = '([a-z,1-6 ]+[a-z1-6])( )?{';

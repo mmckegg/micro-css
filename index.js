@@ -238,7 +238,7 @@ function getElementSelector (name, filter, prepend, isDeep) {
   var selector = escapeClass(name)
 
   if (filter) {
-    selector += '.\\.' + escapeClass(filter)
+    selector += '.' + escapeClass(filter)
   }
 
   if (prepend) {
