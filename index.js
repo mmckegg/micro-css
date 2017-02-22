@@ -3,18 +3,7 @@ var query = require('./query')
 
 module.exports = function (text) {
   var style = tokenizer(text)
-
   var result = getRules(style)
-
-  if (style.mixins) {
-    eachGroup(style.mixins, function (name, innerStyle) {
-      var selector = getSelector(name)
-      if (innerStyle.rules) {
-        result += getCssBlock(selector, innerStyle)
-      }
-      result += getRules(innerStyle, selector)
-    })
-  }
 
   if (style.entities) {
     eachGroup(style.entities, function (name, innerStyle) {
@@ -125,8 +114,6 @@ function getEntityCss (name, style) {
 }
 
 function getExtensions (selector, style) {
-  // TODO: should find a way that allows extensions to be grouped together with the original mixin - that way no duplication of rules
-  // handle extensions
   var result = ''
   if (style.extensions) {
     style.extensions.forEach(function (name) {

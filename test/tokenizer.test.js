@@ -94,11 +94,11 @@ test('element with multiple pseudo classes', function (t) {
 })
 
 test('mixin with rules', function (t) {
-  var tokens = tokenizer('_noticeMe {\n  background-color: fuchsia\n  color:lime\n }')
+  var tokens = tokenizer('$noticeMe {\n  background-color: fuchsia\n  color:lime\n }')
 
   t.deepEquals({
     mixins: {
-      '_noticeMe': {
+      '$noticeMe': {
         rules: {
           'background-color': 'fuchsia',
           'color': 'lime'
@@ -111,18 +111,18 @@ test('mixin with rules', function (t) {
 })
 
 test('nested mixin', function (t) {
-  var tokens = tokenizer('Object { div { _mixin } _mixin { color: red } }')
+  var tokens = tokenizer('Object { div { $mixin } $mixin { color: red } }')
 
   t.deepEquals(tokens, {
     objects: {
       'Object': {
         elements: {
           'div': {
-            extensions: ['_mixin']
+            extensions: ['$mixin']
           }
         },
         mixins: {
-          '_mixin': {
+          '$mixin': {
             rules: {
               'color': 'red'
             }
@@ -137,14 +137,14 @@ test('nested mixin', function (t) {
 
 test('mixin to another rule', function (t) {
   var tokens = tokenizer(
-    '_noticeMe { ' +
+    '$noticeMe { ' +
       '-fancy { ' +
         'background: green \n' +
         'div.stuff { color: white } ' +
       '} ' +
     '}' +
     'Item { ' +
-      '_noticeMe \n' +
+      '$noticeMe \n' +
       'div { ' +
         'color: gray ' +
       '}' +
@@ -153,7 +153,7 @@ test('mixin to another rule', function (t) {
 
   t.deepEquals({
     mixins: {
-      '_noticeMe': {
+      '$noticeMe': {
         flags: {
           '-fancy': {
             rules: {
@@ -172,7 +172,7 @@ test('mixin to another rule', function (t) {
     },
     objects: {
       'Item': {
-        extensions: ['_noticeMe'],
+        extensions: ['$noticeMe'],
         elements: {
           'div': {
             rules: {
@@ -188,11 +188,11 @@ test('mixin to another rule', function (t) {
 })
 
 test('mixin extending element with no rules', function (t) {
-  var tokens = tokenizer('div { _mixin }')
+  var tokens = tokenizer('div { $mixin }')
   t.deepEquals(tokens, {
     elements: {
       'div': {
-        extensions: ['_mixin']
+        extensions: ['$mixin']
       }
     }
   })
@@ -200,11 +200,11 @@ test('mixin extending element with no rules', function (t) {
 })
 
 test('mixin with flags and inner rule', function (t) {
-  var tokens = tokenizer('_noticeMe { -fancy { background: green \n div.stuff { color: white } } }')
+  var tokens = tokenizer('$noticeMe { -fancy { background: green \n div.stuff { color: white } } }')
 
   t.deepEquals(tokens, {
     mixins: {
-      '_noticeMe': {
+      '$noticeMe': {
         flags: {
           '-fancy': {
             rules: {

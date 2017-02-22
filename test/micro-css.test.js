@@ -60,12 +60,12 @@ test('test multiple elements with nesting', function (t) {
 
 test('test multiple elements with mixin', function (t) {
   var mcss = 'input, select {\n' +
-             '  _mixin\n' +
+             '  $mixin\n' +
              '}\n' +
-             '_mixin {\n' +
+             '$mixin {\n' +
              '  [disabled]{ opacity: 0.5 }\n' +
              '}'
-  var expected = 'input[disabled] { opacity: 0.5; }\nselect[disabled] { opacity: 0.5; }\n._mixin[disabled] { opacity: 0.5; }\n'
+  var expected = 'input[disabled] { opacity: 0.5; }\nselect[disabled] { opacity: 0.5; }\n'
 
   t.equal(microCss(mcss), expected)
 
@@ -74,16 +74,16 @@ test('test multiple elements with mixin', function (t) {
 
 test('nested mixins', function (t) {
   var mcss = 'div {\n' +
-             '  _mixin\n' +
+             '  $mixin\n' +
              '}\n' +
-             '_mixin {\n' +
+             '$mixin {\n' +
              '  background: green\n' +
-             '  _innerMixin\n' +
+             '  $innerMixin\n' +
              '}\n' +
-             '_innerMixin {\n' +
+             '$innerMixin {\n' +
              '  div{ color: red }\n' +
              '}'
-  var expected = 'div > div { color: red; }\ndiv { background: green; }\n._mixin { background: green; }\n._innerMixin > div { color: red; }\n'
+  var expected = 'div > div { color: red; }\ndiv { background: green; }\n'
 
   t.equal(microCss(mcss), expected)
 
@@ -127,9 +127,9 @@ test('root multi element with rules', function (t) {
   t.end()
 })
 
-test('mixin with rules', function (t) {
-  var mcss = ('_noticeMe {\n  background-color: fuchsia\n  color:lime\n }')
-  var expected = '._noticeMe { background-color: fuchsia; color: lime; }\n'
+test('mixin not in output', function (t) {
+  var mcss = ('$noticeMe {\n  background-color: fuchsia\n  color:lime\n }')
+  var expected = ''
 
   t.equal(microCss(mcss), expected)
   t.end()
@@ -137,7 +137,7 @@ test('mixin with rules', function (t) {
 
 test('mixin to another rule', function (t) {
   var mcss = (
-    '_noticeMe { ' +
+    '$noticeMe { ' +
       '-fancy { ' +
         'background: green \n' +
         'div.stuff { color: white }\n' +
@@ -145,7 +145,7 @@ test('mixin to another rule', function (t) {
       'color: green ' +
     '}' +
     'Item { ' +
-      '_noticeMe \n' +
+      '$noticeMe \n' +
       'border: solid gray 1px \n' +
       'div { ' +
         'color: gray ' +
@@ -158,10 +158,7 @@ test('mixin to another rule', function (t) {
     '.Item.-fancy { background: green; }\n' +
     '.Item.-fancy > div.stuff { color: white; }\n' +
     '.Item { border: solid gray 1px; }\n' +
-    '.Item > div { color: gray; }\n' +
-    '._noticeMe { color: green; }\n' +
-    '._noticeMe.-fancy { background: green; }\n' +
-    '._noticeMe.-fancy > div.stuff { color: white; }\n'
+    '.Item > div { color: gray; }\n'
   )
 
   t.equal(microCss(mcss), expected)
@@ -173,9 +170,9 @@ test('nested mixin', function (t) {
   var mcss = (
     'Item { ' +
       'div { ' +
-        '_noticeMe \n' +
+        '$noticeMe \n' +
       '}\n' +
-      '_noticeMe { ' +
+      '$noticeMe { ' +
         '-fancy { ' +
           'background: green \n' +
         '}\n' +
@@ -188,15 +185,6 @@ test('nested mixin', function (t) {
     '.Item > div { color: gray; }\n' +
     '.Item > div.-fancy { background: green; }\n'
   )
-
-  t.equal(microCss(mcss), expected)
-
-  t.end()
-})
-
-test('mixin with flags and inner rules', function (t) {
-  var mcss = ('_noticeMe { -fancy { background: green \n div.stuff { color: white } } }')
-  var expected = '._noticeMe.-fancy { background: green; }\n._noticeMe.-fancy > div.stuff { color: white; }\n'
 
   t.equal(microCss(mcss), expected)
 

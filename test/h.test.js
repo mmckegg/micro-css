@@ -5,11 +5,11 @@ var ctor = require('../h.js')
 
 test('parsing classes', function (t) {
   var h = ctor(innerH)
-  var res = h('div.class Object -flag -anotherFlag _mixin')
+  var res = h('div.class Object -flag -anotherFlag')
 
   t.deepEqual(res, [
     'div.class', {
-      className: 'Object -flag -anotherFlag _mixin'
+      className: 'Object -flag -anotherFlag'
     }, undefined
   ])
 

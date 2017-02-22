@@ -9,6 +9,10 @@ A CSS preprocessor that provides a simplified object orientated approach to css.
 - element classes are no longer prefixed with `//.` in generated output
 - mixins are now prefixed with `_` instead of `$` to avoid escaping in generated output.
 
+## BREAKING CHANGES IN v2.0
+
+- mixins are back to a `$` prefix and are no longer exported to generated css (can only be used by other styles)
+
 ## A bit of background
 
 I think there comes a time in any front-end web developer's life when CSS stops being "the most amazing powerful design language on earth" and changes to become the skeletons in our closet that we prefer not to think about too much. This was certainly my experience.
@@ -331,7 +335,7 @@ Becomes:
 A way to reuse styles in multiple places.
 
 ```scss
-_fancyThing {
+$fancyThing {
   box-shadow: 10px 10px silver
   div {
     font-size: 90%
@@ -339,7 +343,7 @@ _fancyThing {
 }
 
 Item {
-  _fancyThing
+  $fancyThing
 
   border: solid 1px gray
   background-color: fuchsia
@@ -353,15 +357,13 @@ Becomes:
   border: solid 1px gray
   background-color: fuchsia
 }
-._fancyThing, .Item {
+.Item {
   box-shadow: 10px 10px silver;
 }
-._fancyThing > div, .Item > div {
+.Item > div {
   font-size: 90%;
 }
 ```
-
-So we can also use the `_mixin` directly as well if we like.
 
 ### Element classes - basically how most people currently use classes
 
