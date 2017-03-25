@@ -24,9 +24,10 @@
   "scripts": {
     "test": "standard && tap test/*.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "optimist": "^0.6.1"
+  },
   "devDependencies": {
-    "optimist": "*",
     "standard": "^8.4.0",
     "tap": "^7.1.2",
     "tape": "*"
