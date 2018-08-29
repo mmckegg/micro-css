@@ -325,3 +325,33 @@ test('empty nested blocks', function (t) {
   t.equals(baf(input), '')
   t.end()
 })
+
+test('empty nested blocks, some with rules', function (t) {
+  var tokens = { elements:
+   { button:
+      { rules:
+         { padding: '8px 10px' },
+        pseudos:
+         { ':hover': { rules: {} },
+           ':focus': { rules: {} },
+           ':active': { rules: {} },
+           '[disabled]': { rules: {} } },
+        flags:
+         { '-add': { rules: {}, pseudos: { ':hover': { rules: {} } } },
+           '-pub': { rules: {}, pseudos: { ':hover': { rules: {} } } },
+           '-save': { pseudos: { '::before': {}, ':hover': { rules: {} } } },
+           '-full': { rules: { display: 'block', width: '100%' } },
+           '-cancel': {} } } } }
+
+  var expected = `button {
+  padding: 8px 10px
+  -full {
+    display: block
+    width: 100%
+  }
+}
+`
+
+  t.equals(serializer(tokens), expected)
+  t.end()
+})
