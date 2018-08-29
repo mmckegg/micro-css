@@ -311,3 +311,17 @@ test('css entity with nesting', function (t) {
   t.equals(baf(input), input)
   t.end()
 })
+
+test('empty blocks', function (t) {
+  var input = 'p {}'
+
+  t.equals(baf(input), '')
+  t.end()
+})
+
+test('empty nested blocks', function (t) {
+  var input = 'div { p { span { } } }'
+
+  t.equals(baf(input), '')
+  t.end()
+})
