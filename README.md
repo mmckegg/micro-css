@@ -233,7 +233,7 @@ Becomes:
 
 ```html
 <div class='Item'>
-  back text
+  black text
 </div>
 <div class='Item -special'>
   red text
