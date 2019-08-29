@@ -18,7 +18,7 @@ test('parsing classes', function (t) {
 
 test('add classes to specified', function (t) {
   var h = ctor(innerH)
-  var res = h('div.class', {className: 'another'})
+  var res = h('div.class', { className: 'another' })
 
   t.deepEqual(res, [
     'div.class',
@@ -31,7 +31,7 @@ test('add classes to specified', function (t) {
 
 test('no element specified with class', function (t) {
   var h = ctor(innerH)
-  var res = h('.class', {className: 'another'})
+  var res = h('.class', { className: 'another' })
 
   t.deepEqual(res, [
     '.class',

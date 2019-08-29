@@ -29,7 +29,7 @@
     "optimist": "^0.6.1"
   },
   "devDependencies": {
-    "standard": "^8.4.0",
+    "standard": "^14.1.0",
     "tap": "^7.1.2",
     "tape": "*"
   },

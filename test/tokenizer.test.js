@@ -7,10 +7,10 @@ test('object with rules', function (t) {
 
   t.deepEquals({
     objects: {
-      'Document': {
+      Document: {
         rules: {
           'background-color': 'silver',
-          'color': 'gray'
+          color: 'gray'
         }
       }
     }
@@ -24,10 +24,10 @@ test('root element with rules', function (t) {
 
   t.deepEquals({
     elements: {
-      'h1': {
+      h1: {
         rules: {
           'font-size': '10pt',
-          'color': '#356'
+          color: '#356'
         }
       }
     }
@@ -44,7 +44,7 @@ test('test preceded by operator', function (t) {
       'p + p': {
         rules: {
           'font-size': '10pt',
-          'color': '#356'
+          color: '#356'
         }
       }
     }
@@ -58,7 +58,7 @@ test('element with pseudo class', function (t) {
 
   t.deepEquals(tokens, {
     elements: {
-      'a': {
+      a: {
         pseudos: {
           ':hover': {
             rules: {
@@ -78,11 +78,11 @@ test('element with multiple pseudo classes', function (t) {
 
   t.deepEquals(tokens, {
     elements: {
-      'a': {
+      a: {
         pseudos: {
           ':before, :after': {
             rules: {
-              'content': "'-'"
+              content: "'-'"
             }
           }
         }
@@ -98,10 +98,10 @@ test('mixin with rules', function (t) {
 
   t.deepEquals({
     mixins: {
-      '$noticeMe': {
+      $noticeMe: {
         rules: {
           'background-color': 'fuchsia',
-          'color': 'lime'
+          color: 'lime'
         }
       }
     }
@@ -115,16 +115,16 @@ test('nested mixin', function (t) {
 
   t.deepEquals(tokens, {
     objects: {
-      'Object': {
+      Object: {
         elements: {
-          'div': {
+          div: {
             extensions: ['$mixin']
           }
         },
         mixins: {
-          '$mixin': {
+          $mixin: {
             rules: {
-              'color': 'red'
+              color: 'red'
             }
           }
         }
@@ -153,16 +153,16 @@ test('mixin to another rule', function (t) {
 
   t.deepEquals({
     mixins: {
-      '$noticeMe': {
+      $noticeMe: {
         flags: {
           '-fancy': {
             rules: {
-              'background': 'green'
+              background: 'green'
             },
             elements: {
               'div.stuff': {
                 rules: {
-                  'color': 'white'
+                  color: 'white'
                 }
               }
             }
@@ -171,12 +171,12 @@ test('mixin to another rule', function (t) {
       }
     },
     objects: {
-      'Item': {
+      Item: {
         extensions: ['$noticeMe'],
         elements: {
-          'div': {
+          div: {
             rules: {
-              'color': 'gray'
+              color: 'gray'
             }
           }
         }
@@ -191,7 +191,7 @@ test('mixin extending element with no rules', function (t) {
   var tokens = tokenizer('div { $mixin }')
   t.deepEquals(tokens, {
     elements: {
-      'div': {
+      div: {
         extensions: ['$mixin']
       }
     }
@@ -204,16 +204,16 @@ test('mixin with flags and inner rule', function (t) {
 
   t.deepEquals(tokens, {
     mixins: {
-      '$noticeMe': {
+      $noticeMe: {
         flags: {
           '-fancy': {
             rules: {
-              'background': 'green'
+              background: 'green'
             },
             elements: {
               'div.stuff': {
                 rules: {
-                  'color': 'white'
+                  color: 'white'
                 }
               }
             }
@@ -240,16 +240,16 @@ test('object with flags', function (t) {
 
   t.deepEquals({
     objects: {
-      'Document': {
+      Document: {
         rules: {
           'background-color': 'silver',
-          'color': 'gray'
+          color: 'gray'
         },
         flags: {
           '-wide': {
             rules: {
-              'width': '700px',
-              'padding': '30px'
+              width: '700px',
+              padding: '30px'
             }
           }
         }
@@ -272,13 +272,13 @@ test('object with deep element', function (t) {
 
   t.deepEquals({
     objects: {
-      'Document': {
+      Document: {
         elements: {
-          'strong': {
+          strong: {
             deep: true,
             rules: {
               'font-weight': 'bold',
-              'color': 'blue'
+              color: 'blue'
             }
           }
         }
@@ -300,11 +300,11 @@ test('element with attribute match', function (t) {
 
   t.deepEquals({
     elements: {
-      'div': {
+      div: {
         pseudos: {
           '[contenteditable]': {
             rules: {
-              'outline': 'dotted 1px silver'
+              outline: 'dotted 1px silver'
             }
           }
         }
@@ -326,7 +326,7 @@ test('root attribute match', function (t) {
     pseudos: {
       '[hidden]': {
         rules: {
-          'display': 'none'
+          display: 'none'
         }
       }
     }
@@ -353,22 +353,22 @@ test('object with flags and nested elements', function (t) {
 
   t.deepEquals({
     objects: {
-      'Document': {
+      Document: {
         rules: {
           'background-color': 'silver',
-          'color': 'gray'
+          color: 'gray'
         },
         flags: {
           '-main': {
             rules: {
-              'padding': '30px'
+              padding: '30px'
             },
             elements: {
-              'heading': {
+              heading: {
                 rules: {
                   'border-bottom': '1px solid gray',
                   'background-color': 'silver',
-                  'color': 'black'
+                  color: 'black'
                 }
               }
             }
@@ -401,18 +401,18 @@ test('object with flags and multiple nested elements', function (t) {
 
   t.deepEquals({
     objects: {
-      'Document': {
+      Document: {
         rules: {
           'background-color': 'silver',
-          'color': 'gray'
+          color: 'gray'
         },
         flags: {
           '-main': {
             rules: {
-              'padding': '30px'
+              padding: '30px'
             },
             elements: {
-              'heading': {
+              heading: {
                 rules: {
                   'border-bottom': '1px solid gray',
                   'background-color': 'silver'
@@ -420,7 +420,7 @@ test('object with flags and multiple nested elements', function (t) {
                 elements: {
                   h1: {
                     rules: {
-                      'color': 'black'
+                      color: 'black'
                     }
                   }
                 }
@@ -446,11 +446,11 @@ test('object with filtered elements', function (t) {
 
   t.deepEquals({
     objects: {
-      'Document': {
+      Document: {
         elements: {
           'span.name': {
             rules: {
-              'color': 'red'
+              color: 'red'
             }
           }
         }
@@ -472,11 +472,11 @@ test('object with multi flags', function (t) {
 
   t.deepEquals({
     objects: {
-      'Document': {
+      Document: {
         flags: {
           '-large -red, -notice': {
             rules: {
-              'color': 'red'
+              color: 'red'
             }
           }
         }
@@ -518,11 +518,11 @@ test('pseudos elements', function (t) {
 
   t.deepEquals(tokens, {
     objects: {
-      'Document': {
+      Document: {
         pseudos: {
           '::-webkit-placeholder': {
             rules: {
-              'color': 'red'
+              color: 'red'
             }
           }
         }
@@ -549,14 +549,14 @@ test('svg entity', function (t) {
     entities: {
       '@svg test': {
         rules: {
-          'width': '16px',
-          'height': '16px',
-          'content': "'<ellipse/>'"
+          width: '16px',
+          height: '16px',
+          content: "'<ellipse/>'"
         },
         elements: {
-          'ellipse': {
+          ellipse: {
             rules: {
-              'fill': 'green'
+              fill: 'green'
             }
           }
         }
@@ -578,11 +578,11 @@ test('nested svg entity', function (t) {
 
   t.deepEquals({
     objects: {
-      'Object': {
+      Object: {
         entities: {
           '@svg test': {
             rules: {
-              'content': "'<ellipse/>'"
+              content: "'<ellipse/>'"
             }
           }
         }
@@ -606,7 +606,7 @@ test('css entity with nesting', function (t) {
     entities: {
       '@keyframes test': {
         elements: {
-          'from': {
+          from: {
             rules: {
               'background-color': 'red'
             }
@@ -616,7 +616,7 @@ test('css entity with nesting', function (t) {
               'background-color': 'green'
             }
           },
-          'to': {
+          to: {
             rules: {
               'background-color': 'blue'
             }
