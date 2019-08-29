@@ -166,7 +166,7 @@ function getSvgDataUrl (name, style) {
     var innerStyles = getRules(style)
     var svg = getSvgBlock(style.rules, innerStyles, parts.slice(1))
 
-    var encoded = new Buffer(svg).toString('base64')
+    var encoded = Buffer.from(svg).toString('base64')
     return 'data:image/svg+xml;charset=utf-8;base64,' + encoded
   }
 }
@@ -240,7 +240,7 @@ function getElementSelector (name, filter, prepend, isDeep) {
 }
 
 function escapeClass (name) {
-  return name.replace(/([\$\.])/g, '\\$1')
+  return name.replace(/([$.])/g, '\\$1')
 }
 
 function eachGroup (groups, iterator) {

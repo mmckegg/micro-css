@@ -3,7 +3,7 @@ module.exports = function (query) {
   query = query.replace(/(^| )([A-Z])/, '$1.$2')
 
   // flags
-  query = query.replace(/ \-/g, '.-')
+  query = query.replace(/ -/g, '.-')
 
   var parts = query.split(',')
   var results = parts.map(handleDepth)
