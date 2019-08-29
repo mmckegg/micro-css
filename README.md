@@ -462,3 +462,7 @@ Becomes
   to { background-color: blue; }
 }
 ```
+
+## License
+
+MIT

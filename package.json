@@ -21,6 +21,7 @@
     "svg"
   ],
   "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "test": "standard && tap test/*.js"
   },
